@@ -1,0 +1,7 @@
+---
+generalvg: general_volumegroup
+dockervg: docker_volumegroup
+dockervol: config_docker
+volumesforvg: []
+docker_group_members: ["vagrant","challenge"]
+root_group_members: ["vagrant","challenge"]

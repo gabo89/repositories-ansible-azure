@@ -1,0 +1,32 @@
+
+vagrant box add generic/rhel7
+
+ansible -i inventory/host all -m ping
+
+
+as root
+https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/redhat/redhat-rhui
+
+Update expired RHUI client certificate on a VM
+yum clean all
+yum makecache
+
+
+Manual update procedure to use the Azure RHUI servers
+
+yum --config='https://rhelimage.blob.core.windows.net/repositories/rhui-microsoft-azure-rhel7.config' install 'rhui-azure-rhel7'
+
+yum-config-manager --disable rhui-rhel-7-server-rhui-rh-common-rpms
+
+yum-config-manager --disable rhui-rhel-7-server-rhui-supplementary-rpms
+
+yum-config-manager --disable rhui-rhel-server-rhui-rhscl-7-rpms
+
+yum-config-manager --disable rhui-rhel-7-server-dotnet-rhui-rpms
+
+yum repolist
+
+yum install --disablerepo="*" --enablerepo="rhui-rhel-7-server-rhui-rpms" --enablerepo="rhui-rhel-7-server-rhui-extras-
+rpms"  ansible
+
+yum install --disablerepo="base" --disablerepo="rhui-rhel-7-server-rhui-extras-rpms"  ansible

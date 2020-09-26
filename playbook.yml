@@ -1,0 +1,9 @@
+---
+- hosts: maquina1
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  roles:
+    - {role: 'base', tags: 'base-role'}
+
+

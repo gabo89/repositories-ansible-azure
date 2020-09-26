@@ -1,0 +1,55 @@
+---
+- name: install ansible
+  yum: name=ansible state=present
+  register: yum_output
+  ignore_errors: true
+
+- name: debug_output fail status
+  debug:
+    var: yum_output.failed  
+
+- name: debug_output results status
+  debug:
+    var: yum_output.results 
+
+- name: set fact to false
+  set_fact:
+    install_repo: "false"
+
+
+- name: check if epel release need to be installed
+  set_fact:
+    install_repo: "true"
+  when: |
+      yum_output is failed or 
+      yum_output.results is search('broken') or 
+      yum_output.results is search('No package matching')
+- name: debug_output facts status
+  debug:
+    var: install_repo
+
+- name: check current repo
+  command: yum repolist
+  register: yum_output
+
+- name: yum_output 
+  debug:
+    var: yum_output.stdout_lines
+
+- name: copy repo to server
+  copy:
+      src: "{{ role_path }}/files/epel.repo"
+      dest: "/etc/yum.repos.d/epel.repo"
+  when: install_repo | bool
+
+- name: check current repo
+  command: yum repolist
+  register: yum_output1
+
+- name: yum_output 
+  debug:
+    var: yum_output1.stdout_lines
+
+
+
+
