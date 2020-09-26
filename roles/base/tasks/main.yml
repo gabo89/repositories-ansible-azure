@@ -38,8 +38,8 @@
 
 - name: copy repo to server
   copy:
-      src: "{{ role_path }}/files/epel.repo"
-      dest: "/etc/yum.repos.d/epel.repo"
+      src: "{{ role_path }}/files/customrepo.repo"
+      dest: "/etc/yum.repos.d/customrepo.repo"
   when: install_repo | bool
 
 - name: check current repo
