@@ -1,5 +1,5 @@
 ---
-- name: install ansible
+- name: install ansible for first time
   yum: name=ansible state=present
   register: yum_output
   ignore_errors: true
@@ -17,7 +17,7 @@
     install_repo: "false"
 
 
-- name: check if epel release need to be installed
+- name: check if custom repo need to be installed
   set_fact:
     install_repo: "true"
   when: |
@@ -36,7 +36,7 @@
   debug:
     var: yum_output.stdout_lines
 
-- name: copy repo to server
+- name: copy custom repo to server
   copy:
       src: "{{ role_path }}/files/customrepo.repo"
       dest: "/etc/yum.repos.d/customrepo.repo"
@@ -63,8 +63,14 @@
     - rhui-rhel-7-server-rhui-supplementary-rpms
     - rhui-rhel-server-rhui-rhscl-7-rpms
     - rhui-rhel-7-server-dotnet-rhui-rpms
+  when: install_repo | bool
 
-
+- name: install ansible for second time
+  yum: name=ansible state=present
+    enablerepo: "rhui-rhel-7-server-rhui-rpms,rhui-rhel-7-server-rhui-extras-rpms"
+    disablerepo: "*"
+  register: yum_output
+  ignore_errors: true
 
 - name: check current repo
   command: yum repolist
