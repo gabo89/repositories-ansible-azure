@@ -1,1 +1,1 @@
-40.69.131.181_50000 ansible_host=40.69.131.181 ansible_port=50000 ansible_user=localserver ansible_ssh_pass=**** ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+23.101.121.202_50000 ansible_host=23.101.121.202 ansible_port=50000 ansible_user=localserver ansible_ssh_pass=**** ansible_ssh_common_args='-o StrictHostKeyChecking=no'

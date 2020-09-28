@@ -3,8 +3,6 @@
   yum:  
     name: ansible 
     state: present
-    disablerepo: "*"
-    enablerepo: "base"
   register: yum_output
   ignore_errors: true
 
@@ -40,11 +38,26 @@
   debug:
     var: yum_output.stdout_lines
 
+#add repo
 - name: copy custom repo to server
   copy:
       src: "{{ role_path }}/files/customrepo.repo"
       dest: "/etc/yum.repos.d/customrepo.repo"
   when: install_repo | bool
+
+#add key
+- name: Check if redhat GPG check  exists
+  stat:
+    path: "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+  register: stat_result
+
+#only add key if not exists
+- name: copy custom key to server
+  copy:
+      src: "{{ role_path }}/files/key"
+      dest: "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+  when: install_repo | bool and not stat_result.stat.exists
+
 
 
 #install a wide lists, only keep the necesary
@@ -69,7 +82,7 @@
     - rhui-rhel-7-server-dotnet-rhui-rpms
   when: install_repo | bool
 
-- name: install ansible for second time
+- name: install ansible - second time
   yum: 
     name: ansible 
     state: present
