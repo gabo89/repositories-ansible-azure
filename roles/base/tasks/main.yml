@@ -66,11 +66,13 @@
   when: install_repo | bool
 
 - name: install ansible for second time
-  yum: name=ansible state=present
+  yum: 
+    name: ansible 
+    state: present
     enablerepo: "rhui-rhel-7-server-rhui-rpms,rhui-rhel-7-server-rhui-extras-rpms"
     disablerepo: "*"
-  register: yum_output
   ignore_errors: true
+  when: install_repo | bool
 
 - name: check current repo
   command: yum repolist
