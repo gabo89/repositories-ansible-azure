@@ -29,6 +29,6 @@ yum-config-manager --disable rhui-rhel-7-server-dotnet-rhui-rpms
 
 yum repolist
 
-yum install --disablerepo="*" --enablerepo="rhui-rhel-7-server-rhui-rpms" --enablerepo="rhui-rhel-7-server-rhui-extras-rpms"  ansible
+yum install --disablerepo="*" --enablerepo="rhui-rhel-7-server-rhui-rpms" --enablerepo="rhui-rhel-7-server-rhui-extras-rpms" ansible
 
 yum install --disablerepo="base" --disablerepo="rhui-rhel-7-server-rhui-extras-rpms"  ansible
