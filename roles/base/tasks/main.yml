@@ -42,6 +42,30 @@
       dest: "/etc/yum.repos.d/customrepo.repo"
   when: install_repo | bool
 
+
+#install a wide lists, only keep the necesary
+- name: install rhui from azure
+  yum: name=rhui-azure-rhel7 state=present
+  ignore_errors: true
+  when: install_repo | bool
+
+#leaves 
+#rhui-rhel-7-server-rhui-rpms
+#rhui-rhel-7-server-rhui-extras-rpms
+- name: Remove repository that are not important
+  yum_repository:
+    name: "{{item}}"
+    state: absent
+    file: rh-cloud
+  notify: yum-clean-metadata
+  with_items:
+    - rhui-rhel-7-server-rhui-rh-common-rpms
+    - rhui-rhel-7-server-rhui-supplementary-rpms
+    - rhui-rhel-server-rhui-rhscl-7-rpms
+    - rhui-rhel-7-server-dotnet-rhui-rpms
+
+
+
 - name: check current repo
   command: yum repolist
   register: yum_output1
@@ -49,7 +73,4 @@
 - name: yum_output 
   debug:
     var: yum_output1.stdout_lines
-
-
-
 

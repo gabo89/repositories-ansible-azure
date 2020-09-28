@@ -1,5 +1,5 @@
 ---
-- hosts: maquina1
+- hosts: 40.69.131.181_50000
   gather_facts: yes  
   become: true
   become_method: "sudo"

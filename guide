@@ -3,6 +3,9 @@ vagrant box add generic/rhel7
 
 ansible -i inventory/host all -m ping
 
+ansible-playbook -i inventory/singlevmshosts playbook.yml --ask-become-pass 
+
+T?A$8MTyjb
 
 as root
 https://docs.microsoft.com/en-us/azure/virtual-machines/workloads/redhat/redhat-rhui
@@ -26,7 +29,6 @@ yum-config-manager --disable rhui-rhel-7-server-dotnet-rhui-rpms
 
 yum repolist
 
-yum install --disablerepo="*" --enablerepo="rhui-rhel-7-server-rhui-rpms" --enablerepo="rhui-rhel-7-server-rhui-extras-
-rpms"  ansible
+yum install --disablerepo="*" --enablerepo="rhui-rhel-7-server-rhui-rpms" --enablerepo="rhui-rhel-7-server-rhui-extras-rpms"  ansible
 
 yum install --disablerepo="base" --disablerepo="rhui-rhel-7-server-rhui-extras-rpms"  ansible
