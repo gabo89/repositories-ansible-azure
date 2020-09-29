@@ -1,0 +1,10 @@
+
+    /etc/exports : Its a main configuration file of NFS, all exported files and directories are defined in this file at the NFS Server end.
+    /etc/fstab : To mount a NFS directory on your system across the reboots, we need to make an entry in /etc/fstab.
+    /etc/sysconfig/nfs : Configuration file of NFS to control on which port rpc and other services are listening.
+
+
+    portmap : It maps calls made from other machines to the correct RPC service (not required with NFSv4).
+    nfs: It translates remote file sharing requests into requests on the local file system.
+    rpc.mountd: This service is responsible for mounting and unmounting of file systems.
+
