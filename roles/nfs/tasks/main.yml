@@ -54,6 +54,8 @@
 
 #advantajes for nfs v4 over nfs v3,v2
 #https://www.linvirtshell.com/2018/06/difference-between-nfsv2-nfsv3-and-nfs4.html
+#https://manpages.debian.org/buster/nfs-common/idmapd.8.en.html
+#https://www.stephenrlang.com/2016/01/setup-nfsv4-on-centos/
 
 #disable nfsv2 and nfsv3
 - block:
