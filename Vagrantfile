@@ -3,10 +3,10 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-N = 1
+N = 2
 (1..N).each do |machine_id|
   config.vm.define "maquina#{machine_id}" do |machine|
-    	machine.vm.box = "generic/rhel7"
+    	machine.vm.box = "centos/7"
         machine.vm.hostname = "red-node-#{machine_id}"
     	machine.vm.network "private_network", ip: "192.168.30.#{20+machine_id}"
     	machine.ssh.forward_agent = true

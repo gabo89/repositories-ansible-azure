@@ -1,0 +1,71 @@
+---
+
+- name: export the directories editing the file /etc/exports
+  lineinfile: 
+    dest: /etc/fstab 
+    regexp: "^{{ item.path }} " 
+    line: "{{ item.path }} {{ item.export }}" 
+    create: yes
+  with_items: "{{ nfs_fstab }}"
+  register: nfs_exports_result
+
+
+#create necesary files and users
+
+- name: view exported volumes
+  shell: showmount -e {{nfs_server}}
+  register: showmount
+
+- debug:
+    var: showmount.stdout_lines
+
+- name: create group
+  group:
+    name: atlbitbucket
+    system: yes
+    state: present
+    gid: "{{bitbucket_group_id}}"
+
+- name: add atlbitbucket user
+  user:
+    name: atlbitbucket
+    comment: atlassian bitbucket
+    group: atlbitbucket
+    shell: /bin/bash
+    create_home: no
+    uid: "{{bitbucket_user_id}}"
+
+- name: Create a directory {{nfs_path_on_client}}
+  file:
+    path: "{{nfs_path_on_client}}"
+    state: directory
+    mode: '0777'
+    owner: "{{bitbucket_user_id}}"
+    group: "{{bitbucket_group_id}}"
+
+#install nfs utils
+
+- name: install nfs_utils rpm
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: install nfs_utils rpm
+  yum:
+    name: rpcbind
+    state: present
+
+- set_fact: NFS_SERVICE="rpcbind"
+- set_fact: NFS_MAPPING="nfs-idmap"
+
+- name: Check if NFS server service is started and enabled
+  service: name={{NFS_SERVICE}} state=started enabled=yes
+
+- name: Check if NFS idmap service is started and enabled
+  service: name={{NFS_MAPPING}} state=started enabled=yes
+
+- name: mount the folder
+  shell: "mount {{nfs_path_on_client}} 2>/dev/null || echo 'already mounted'" 
+  args:
+    warn: false
+

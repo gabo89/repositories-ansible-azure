@@ -1,0 +1,117 @@
+---
+
+#configure the exports file
+- name: export the directories editing the file /etc/exports
+  lineinfile: 
+    dest: /etc/exports 
+    regexp: "^{{ item.path }} " 
+    line: "{{ item.path }} {{ item.export }}" 
+    create: yes
+  with_items: "{{ nfs_exports }}"
+  register: nfs_exports_result
+
+
+#create necesary files and users
+
+- name: create group
+  group:
+    name: atlbitbucket
+    system: yes
+    state: present
+    gid: "{{bitbucket_group_id}}"
+
+- name: add atlbitbucket user
+  user:
+    name: atlbitbucket
+    comment: atlassian bitbucket
+    group: atlbitbucket
+    shell: /bin/bash
+    create_home: no
+    uid: "{{bitbucket_user_id}}"
+
+- name: Create a directory {{bitbucket_path_for_nfs}}
+  file:
+    path: "{{bitbucket_path_for_nfs}}"
+    state: directory
+    mode: '0777'
+    owner: "{{bitbucket_user_id}}"
+    group: "{{bitbucket_group_id}}"
+
+#install nfs utils and rcpbind
+
+- name: install nfs_utils rpm
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: install rpcbind rpm
+  yum:
+    name: rpcbind
+    state: present
+
+- set_fact: NFS_SERVICE="nfs-server"
+- set_fact: NFS_MAPPING="nfs-idmap"
+
+#advantajes for nfs v4 over nfs v3,v2
+#https://www.linvirtshell.com/2018/06/difference-between-nfsv2-nfsv3-and-nfs4.html
+
+#disable nfsv2 and nfsv3
+- block:
+  - name: Set RPCNFSDARGS to block v2 , v3
+    lineinfile:
+      dest: /etc/sysconfig/nfs
+      regexp: '^RPCNFSDARGS='
+      line: RPCNFSDARGS="-N 2 -N 3"
+    register: disable_old_version
+    notify: restart_nfs_config
+
+  - name: Set more thread to nfs
+    lineinfile:
+      dest: /etc/sysconfig/nfs
+      regexp: '^#RPCNFSDCOUNT='
+      line: RPCNFSDCOUNT=64
+    register: add_thread
+    notify: restart_nfs_config
+
+  - name: Restart nfs-config
+    service: name=nfs-config state=restarted
+    when: nfs_exports_result is changed
+  when: nfs_only_v4 | bool
+
+#ensure rpcbind is running when not using nfsv4
+- name: Ensure rpcbind is running
+  service: name=rpcbind state=started enabled=yes
+  when: not nfs_only_v4
+
+#ensure nfslock is running when not using nfsv4
+- name: Ensure nfslock is running
+  service: name=nfslock state=started enabled=yes
+  when: not nfs_only_v4
+
+
+- name: Restart NFS server service
+  service: name={{NFS_SERVICE}} state=restarted enabled=yes
+  when: nfs_exports_result is changed
+
+- name: Check if NFS server service is started and enabled
+  service: name={{NFS_SERVICE}} state=started enabled=yes
+
+- name: Check if NFS idmap service is started and enabled
+  service: name={{NFS_MAPPING}} state=started enabled=yes
+
+#nfsv4 doesnt need rpcbind , ensure is stopped
+- name: Ensure rpcbind is stopped
+  service: name=rpcbind state=stopped enabled=no
+  when: nfs_only_v4
+
+#nfsv4 doesnt need nfslock , ensure is stopped
+- name: Ensure nfslock is stopped
+  service: name=nfslock state=stopped enabled=no
+  when: nfs_only_v4
+
+
+#validate configuration in the server with the following commands
+#showmount -e
+#rpcinfo -p
+
+

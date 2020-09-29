@@ -1,9 +1,15 @@
 ---
-- hosts: 23.101.121.202_50000
+- hosts: maquina1
   gather_facts: yes  
   become: true
   become_method: "sudo"
   roles:
     - {role: 'base', tags: 'base-role'}
-
+    - {role: 'nfsclient', tags: 'nfs-client-role'}
+- hosts: maquina2
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  roles:
+    - {role: 'nfs', tags: 'nfs-role'}
 

@@ -1,0 +1,16 @@
+---
+
+
+nfs_path_on_client: "/opt/client-fs"
+#user 1014 is APNCDES
+bitbucket_user_id: 1014  
+bitbucket_group_id: 1014 
+nfs_server: "192.168.30.22"
+nfs_path: "/opt/shared-fs"
+
+nfs_fstab:
+- path: "{{nfs_server}}:{{nfs_path}}"
+  export: "{{ nfs_path_on_client }} nfs lookupcache=pos,noatime,intr,rsize=32768,wsize=32768 0 0"
+
+
+
