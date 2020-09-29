@@ -1,5 +1,7 @@
 ---
-
+#install
+#remove
+action_execute: install
 
 nfs_path_on_client: "/opt/client-fs"
 #user 1014 is APNCDES

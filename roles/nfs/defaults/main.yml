@@ -1,5 +1,7 @@
 ---
-
+#install
+#remove
+action_execute: install
 
 bitbucket_path_for_nfs: "/opt/shared-fs"
 #user 1014 is APNCDES

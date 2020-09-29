@@ -1,0 +1,15 @@
+---
+#install
+#remove
+action_execute: install
+
+jira_ip: "192.168.30.21"
+jira_dns: "jira.gabrielserver.com"
+
+bamboo_ip: "192.168.30.22"
+bamboo_dns: "bamboo.gabrielserver.com"
+
+domain_resolve: "gabrielserver.com"
+
+
+

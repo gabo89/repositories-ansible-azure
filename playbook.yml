@@ -1,15 +1,24 @@
 ---
+
+#action_execute
+#install
+#remove
+
+#when install put maquina 2 first and then maquina1
+#when unistall put maquina1 first and then maquina2
+
+
 - hosts: maquina1
   gather_facts: yes  
   become: true
   become_method: "sudo"
   roles:
-    - {role: 'base', tags: 'base-role'}
-    - {role: 'nfsclient', tags: 'nfs-client-role'}
+    - {role: 'resolve', action_execute: 'remove', tags: 'resolve-role'}
+    - {role: 'nfsclient', action_execute: 'remove', tags: 'nfs-client-role'}
 - hosts: maquina2
   gather_facts: yes  
   become: true
   become_method: "sudo"
   roles:
-    - {role: 'nfs', tags: 'nfs-role'}
-
+    - {role: 'resolve', action_execute: 'remove', tags: 'resolve-role'}
+    - {role: 'nfs', action_execute: 'remove', tags: 'nfs-role'}
