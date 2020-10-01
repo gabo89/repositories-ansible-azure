@@ -3,7 +3,7 @@
 #remove
 action_execute: install
 
-nfs_path_on_client: "/opt/client-fs"
+nfs_path_on_client: "/opt/atlassian/home/shared"
 #user 1014 is APNCDES
 bitbucket_user_id: 1014  
 bitbucket_group_id: 1014 

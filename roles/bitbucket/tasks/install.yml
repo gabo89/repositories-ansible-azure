@@ -1,8 +1,8 @@
 ---
 - name: copy bitbucket bin 
   copy:
-    src: "{{ role_path }}/files/atlassian-bitbucket-7.6.0-x64.bin"
-    dest: "/home/atlassian-bitbucket-7.6.0-x64.bin"
+    src: "{{ role_path }}/files/atlassian-bitbucket-5.8.0-linux-x64.bin"
+    dest: "/home/atlassian-bitbucket-5.8.0-linux-x64.bin"
     mode: '0755'
 
 - name: Import a key from a url
@@ -70,7 +70,7 @@
     dest: "/home/response.varfile"
 
 - name: install bitbucket server
-  shell: "/home/atlassian-bitbucket-7.6.0-x64.bin -q -varfile /home/response.varfile"
+  shell: "/home/atlassian-bitbucket-5.8.0-linux-x64.bin -q -varfile /home/response.varfile"
   register: install_results
   ignore_errors: true
 
@@ -107,8 +107,8 @@
     group: atlbitbucket
     mode: '0666'
  
-#- name: start bitbucket services
-#  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
+- name: start bitbucket services
+  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
 
 
 

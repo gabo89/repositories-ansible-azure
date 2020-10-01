@@ -29,10 +29,10 @@
 
 #create necesary files and users
 
-- name: remove directory {{nfs_path_on_client}}
-  file:
-    path: "{{nfs_path_on_client}}"
-    state: absent
+#- name: remove directory {{nfs_path_on_client}}
+#  file:
+#    path: "{{nfs_path_on_client}}"
+#    state: absent
 
 #- name: remove atlbitbucket user
 #  user:

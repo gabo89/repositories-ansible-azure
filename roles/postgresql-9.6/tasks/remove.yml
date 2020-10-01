@@ -5,8 +5,10 @@
     state: absent
   vars:
     packages:
-    - postgresql12-server 
-    - postgresql12
+    - postgresql96-server 
+    - postgresql96
+    - postgresql96-contrib
+    - postgresql96-libs
 
 - name: remove postgresql old package
   yum:
@@ -16,6 +18,8 @@
     packages:
     - postgresql-server 
     - postgresql
+    - postgresql-libs
+    - postgresql-contrib
   ignore_errors: true
 
 - name: removed dependencies for pip modules

@@ -38,6 +38,9 @@
 
 #https://confluence.atlassian.com/bitbucketserver/clustering-with-bitbucket-data-center-776640164.html
 #Elasticsearch 5.5.1 - 5.5.3, 6.5.3, and 6.8.6.
+
+
+#6.5.3
 - name: Add elasticsearch repo
   yum_repository:
     name: elasticsearch
@@ -72,8 +75,8 @@
     src: "{{ role_path }}/templates/config.elastic.j2"
     dest: "/etc/elasticsearch/elasticsearch.yml"
   notify:
-    - restart_elastic
     - daemon_reload
+    - restart_elastic
 
 #https://www.elastic.co/guide/en/elasticsearch/reference/master/executable-jna-tmpdir.html
 #https://www.elastic.co/guide/en/elasticsearch/reference/5.0/heap-size.html
@@ -81,11 +84,42 @@
   lineinfile: 
     dest: /etc/sysconfig/elasticsearch 
     regexp: "^#ES_JAVA_OPTS=" 
-    line: 'ES_JAVA_OPTS="-Djna.tmpdir=/var/lib/elasticsearch/tmp -Xms2g -Xmx2g"' 
+    line: 'ES_JAVA_OPTS="-Djna.tmpdir=/var/lib/elasticsearch/tmp"' 
     create: yes
   notify:
-    - restart_elastic
     - daemon_reload
+    - restart_elastic
+
+- name: configure minimun heap 
+  lineinfile: 
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "^-Xms" 
+    line: '-Xms2g' 
+    create: yes
+  notify:
+    - daemon_reload
+    - restart_elastic
+
+- name: configure maximum heap 
+  lineinfile: 
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "^-Xmx" 
+    line: '-Xmx2g' 
+    create: yes
+  notify:
+    - daemon_reload
+    - restart_elastic
+
+#https://github.com/elastic/elasticsearch/issues/22245
+- name: configure and disable warnings
+  lineinfile: 
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "^-XX:-AssumeMP" 
+    line: '-XX:-AssumeMP' 
+    create: yes
+  notify:
+    - daemon_reload
+    - restart_elastic
 
 - name: Create a directory /etc/systemd/system/elasticsearch.service.d
   file:
@@ -100,8 +134,8 @@
        [Service]
        LimitMEMLOCK=infinity
   notify:
-    - restart_elastic
     - daemon_reload
+    - restart_elastic
 
 #check if memory is locked
 #curl localhost:9200/_nodes?filter_path=**.mlockall
@@ -127,7 +161,7 @@
 #buckler plugin
 
 - name: install buckler plugin
-  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b https://packages.atlassian.com/maven/com/atlassian/elasticsearch/buckler-plugin/2.1.2/buckler-plugin-2.1.2-6.8.6.zip  
+  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b https://packages.atlassian.com/maven/com/atlassian/elasticsearch/buckler-plugin/2.0.0/buckler-plugin-2.0.0-6.5.3.zip  
   register: install_plugin
   when: not plugin_list.stdout is search('buckler') 
 
@@ -148,8 +182,9 @@
     src: "{{ role_path }}/templates/config.buckler.j2"
     dest: "{{elasticsearch_config}}/buckler/buckler.yml"
   notify:
-    - restart_elastic
     - daemon_reload
+    - restart_elastic
 #curl -s 'http://192.168.30.22:9200/' -u usuariobuckler:p@ssw0rd
 
+#curl -u bitbucketlocal -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' http://192.168.30.21:7990/rest/indexing/latest/sync
 

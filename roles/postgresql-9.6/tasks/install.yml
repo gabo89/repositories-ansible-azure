@@ -7,17 +7,19 @@
     name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
     state: present
 
-- name: install postgress-12 package
+- name: install postgress-9.6 package
   yum:
     name: "{{ packages }}"
     state: present
   vars:
     packages:
-    - postgresql12-server 
-    - postgresql12
+    - postgresql96-server 
+    - postgresql96
+    - postgresql96-contrib
+    - postgresql96-libs
 
 - name: execute setup for db 
-  shell: /usr/pgsql-12/bin/postgresql-12-setup initdb
+  shell: /usr/pgsql-9.6/bin/postgresql96-setup initdb
   register: output
   ignore_errors: yes
 
@@ -25,11 +27,11 @@
   debug: 
     msg: "{{output.stdout}}"
 
-- name : start systemctl postgres-12
+- name : start systemctl postgres-9.6
   systemd:
     state: started
     enabled: yes
-    name: postgresql-12
+    name: postgresql-9.6
 
 - name: ensure dependencies for pip modules are installed
   yum:
@@ -99,7 +101,7 @@
 
 - name: configure to allow listen to multiple adress
   lineinfile: 
-    dest: /var/lib/pgsql/12/data/postgresql.conf
+    dest: /var/lib/pgsql/9.6/data/postgresql.conf
     regexp: "^listen_addresses=" 
     line: "listen_addresses='*'" 
     create: yes
@@ -109,7 +111,7 @@
 
 - name: configure to allow network to connect to this server
   lineinfile: 
-    dest: /var/lib/pgsql/12/data/pg_hba.conf
+    dest: /var/lib/pgsql/9.6/data/pg_hba.conf
     regexp: "^host all all 192.168.30.0/24 trust" 
     line: "host all all 192.168.30.0/24 trust" 
     create: yes
@@ -118,7 +120,7 @@
   - restart_postgresql
 
 #sudo su - postgres
-#/usr/pgsql-12/bin/psql
+#/usr/pgsql-9.6/bin/psql
 #command to check
 #\l for list database
 #\du for list user

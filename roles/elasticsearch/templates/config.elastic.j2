@@ -1,6 +1,7 @@
 path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
-action.auto_create_index: ".watches,.triggered_watches,.watcher-history-*"
+#https://confluence.atlassian.com/bitbucketserverkb/bitbucket-server-code-search-is-unable-to-find-results-from-some-or-all-repositories-858783145.html
+action.auto_create_index: "true"
 network.host: 0.0.0.0
 bootstrap.memory_lock: true
 cluster.name: Devops
