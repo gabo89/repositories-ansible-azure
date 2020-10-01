@@ -1,23 +1,40 @@
 ---
-- name: remove domain from resolv.conf 
-  lineinfile: 
-    dest: /etc/resolv.conf 
-    regexp: "^domain" 
+
+- name: stop bitbucket services
+  shell: "{{bitbucket_install_path}}/bin/stop-bitbucket.sh --no-search "
+
+- name: Get running processes
+  shell: "ps -ef | grep -v grep | grep bitbucket | awk '{print $2}'"
+  register: running_processes
+
+- name: Kill running processes
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+
+- name: remove git
+  yum: 
+    name:  "git"
     state: absent
-    create: yes
+    disablerepo: "*"
+    enablerepo: "wandisco-git,base"
 
-- name: remove  {{bamboo_ip}} ip from /etc/hosts 
-  lineinfile: 
-    dest: /etc/hosts 
-    regexp: "^{{bamboo_ip}}" 
+- name : stop service atlbitbucket
+  systemd:
+    state: stopped
+    enabled: no
+    name: atlbitbucket
+
+- name:  remove directory {{bitbucket_home_path}}
+  file:
+    path: " {{bitbucket_home_path}}"
     state: absent
-    create: yes
 
-- name: remove  {{jira_ip}} ip from /etc/hosts 
-  lineinfile: 
-    dest: /etc/hosts 
-    regexp: "^{{jira_ip}}" 
+- name:  remove directory {{bitbucket_install_path}}
+  file:
+    path: "{{bitbucket_install_path}}"
     state: absent
-    create: yes
 
-
+- name:  remove directory /opt/atlassian
+  file:
+    path: "/opt/atlassian"
+    state: absent

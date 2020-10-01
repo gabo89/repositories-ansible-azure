@@ -37,30 +37,30 @@
       - gcc
       - python-devel
 
-- name: ensure epel is installed
-  yum:
-    name: epel-release
-    state: present
+#- name: ensure epel is installed
+#  yum:
+#    name: epel-release
+#    state: present
 
-- name: ensure python-pip is installed
-  yum:
-    name: python-pip
-    state: present
+#- name: ensure python-pip is installed
+#  yum:
+#    name: python-pip
+#    state: present
 
-- name: ensure python-wheel is installed
-  yum:
-    name: python-wheel
-    state: present
+#- name: ensure python-wheel is installed
+#  yum:
+#    name: python-wheel
+#    state: present
 
-- name: Make sure  setuptools is installed
-  pip:
-    name: setuptools
-    state: present
+#- name: Make sure  setuptools is installed
+#  pip:
+#    name: setuptools
+#    state: present
 
-- name: Make sure  mechanize is installed
-  pip:
-    name: mechanize
-    state: present
+#- name: Make sure  mechanize is installed
+#  pip:
+#    name: mechanize
+#    state: present
 
 #https://github.com/Praqma/bitbucket/blob/master/bitbucket-response.varfile
 #https://confluence.atlassian.com/bitbucketserver/running-the-bitbucket-server-installer-776640183.html
@@ -72,6 +72,7 @@
 - name: install bitbucket server
   shell: "/home/atlassian-bitbucket-7.6.0-x64.bin -q -varfile /home/response.varfile"
   register: install_results
+  ignore_errors: true
 
 - name: view install results
   debug:
@@ -87,12 +88,18 @@
     name: atlbitbucket
 
 #https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
+#https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
 #shared folder of your homepath
  
-- name: copy response.varfile template to server
+- name: copy bitbucket.properties template to server
   template:
     src: "{{ role_path }}/templates/bitbucket.properties.j2"
     dest: "{{bitbucket_home_path}}/shared/bitbucket.properties"
     owner: atlbitbucket
     group: atlbitbucket
  
+- name: start bitbucket services
+  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
+
+
+
