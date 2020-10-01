@@ -1,0 +1,9 @@
+---
+#install
+#remove
+action_execute: install
+
+bitbucket_home_path: "/opt/atlassian/app-data/bitbucket"
+bitbucket_install_path: "/opt/atlassian/bitbucket"
+
+bitbucket_license: "AAABNQ0ODAoPeNp1kU1vwjAMhu5FZF22Q5BTasxQIq00fZQqcC28rHDLiYYiNamVZKi8e8X6NC0iR0iWfbrx6+dmxVuaIENjQLKhyM+GEVDGidzGgZhQBK00qjGqVqLsXLrVn6go7cFmgOau/cRTQ9QtnCqk9jgOUjAoTh1Mx6wgJO41g6km0KFYgdro7CULWxMbR93FaiyJ+vqIkonPvG/6meacKZFYh3Yfc/3qQN2mVJJ1BaXaOxJFRIP1A41aInpZ6PM8Ze9iJOZ2YFWtqN6oN5AWesLO+9482OD5wXi2WSSvsbZU066I2SJGBfDOcuCt3uWviwfWLiIVqRIp8I/lvM+54P+ICTfJK/Ps+Rq6bq/zkfhwDg0YgulvXibttUazWy7sH5bwTh5bo3cg8W/P/AF9zaf7DAtAhQ17K61Mf4U6DPf8bZ0MrW2Io4pRQIVAJENmiWWMGzFIRPSIkGMUCXTeQKFX02ff"

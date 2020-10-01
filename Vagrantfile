@@ -20,7 +20,7 @@ N = 2
     	machine.vm.provider "virtualbox" do |vb|
         #total cpu in my pc = 8 
         vb.cpus = 1
-        vb.memory = 2048
+        vb.memory = 6144
         vb.gui = false
         vb.name = "red-node-#{machine_id}"
     	

@@ -1,0 +1,96 @@
+---
+- name: install postgress package
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - postgresql-server 
+    - postgresql-contrib
+
+- name: execute setup for db 
+  shell: /usr/bin/postgresql-setup initdb
+  register: output
+  ignore_errors: yes
+
+- name: view result for setup
+  debug: 
+    msg: "{{output.stdout}}"
+
+- name : start systemctl postgres
+  systemd:
+    state: started
+    enabled: yes
+    name: postgresql
+
+- name: ensure dependencies for pip modules are installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - gcc
+      - python-devel
+      - postgresql-devel
+
+- name: ensure epel is installed
+  yum:
+    name: epel-release
+    state: present
+
+- name: ensure python-pip is installed
+  yum:
+    name: python-pip
+    state: present
+
+- name: ensure python-wheel is installed
+  yum:
+    name: python-wheel
+    state: present
+
+- name: Make sure  setuptools is installed
+  pip:
+    name: setuptools
+    state: present
+
+- name: Make sure psycopg2 is installed
+  pip:
+    name: psycopg2
+    state: present
+
+- name: "Create a new database with name {{database_name}}"
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{database_name}}"
+    encoding: UNICODE
+    lc_collate: C
+    lc_ctype: C
+    template: template0
+    ssl_mode: require
+
+- name: "Create a new username with name {{database_user}}"
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{database_user}}"
+    password: "{{database_pass}}"
+    ssl_mode: require
+
+- name: "assign permission to {{database_user}} in {{database_name}}"
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: postgres
+    state: present
+    privs: ALL
+    type: database
+    obj: "{{database_name}}"
+    role: "{{database_user}}"
+    ssl_mode: require
+
+
+#command to check
+#\l for list database
+#\du for list user
+#\q to quit

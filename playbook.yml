@@ -14,6 +14,8 @@
   roles:
     - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
     - {role: 'nfs', action_execute: 'install', tags: 'nfs-role'}
+    - {role: 'elasticsearch', action_execute: 'install', tags: 'elasticsearch-role'}
+    - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
 - hosts: maquina1
   gather_facts: yes  
   become: true
@@ -21,4 +23,6 @@
   roles:
     - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
     - {role: 'nfsclient', action_execute: 'install', tags: 'nfs-client-role'}
-
+    - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
+    - {role: 'postgresql', action_execute: 'install', tags: 'postgresql-role'}
+    - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}

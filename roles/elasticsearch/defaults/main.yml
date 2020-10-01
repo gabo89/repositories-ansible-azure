@@ -1,0 +1,10 @@
+---
+#install
+#remove
+action_execute: install
+
+elasticsearch_config: "/etc/elasticsearch"
+elasticsearch_version: "elasticsearch-7.5.2"
+
+buckler_user: "usuariobuckler"
+buckler_pass: "p@ssw0rd"

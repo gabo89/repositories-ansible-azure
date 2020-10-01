@@ -1,0 +1,144 @@
+---
+
+- name: ensure java is installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - java-1.8.0-openjdk
+      - java-1.8.0-openjdk-devel
+
+- name: disable swap
+  lineinfile:
+    path: /etc/fstab
+    state: absent
+    regexp: 'swap'
+
+- name: disable swap
+  command: swapoff -a
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: update kernel settings
+  sysctl:
+    name: vm.max_map_count
+    value: 262144
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Import a key from a url
+  rpm_key:
+    state: present
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: Add elasticsearch repo
+  yum_repository:
+    name: elasticsearch
+    description: Elasticsearch repository for 7.x packages
+    file: elasticsearch
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: install {{elasticsearch_version}} 
+  yum: 
+    name:  "{{elasticsearch_version}}"
+    state: present
+    enablerepo: "elasticsearch"
+
+#configure elasticsearch requirements
+#https://www.elastic.co/guide/en/elasticsearch/reference/5.0/system-config.html
+#    Set JVM heap size
+#    Disable swapping
+#    Increase file descriptors
+#    Ensure sufficient virtual memory
+#    Ensure sufficient threads
+
+#https://github.com/elastic/elasticsearch/issues/33369
+#https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
+#xpack.security.enabled: false is important to be disabled to not cause issue with other Using REST wrapper from plugin 
+- name: copy elastic template to server
+  template:
+    src: "{{ role_path }}/templates/config.elastic.j2"
+    dest: "/etc/elasticsearch/elasticsearch.yml"
+  notify:
+    - restart_elastic
+    - daemon_reload
+
+#https://www.elastic.co/guide/en/elasticsearch/reference/master/executable-jna-tmpdir.html
+#https://www.elastic.co/guide/en/elasticsearch/reference/5.0/heap-size.html
+- name: configure tmp directory of elastic search to not execute in /tmp
+  lineinfile: 
+    dest: /etc/sysconfig/elasticsearch 
+    regexp: "^#ES_JAVA_OPTS=" 
+    line: 'ES_JAVA_OPTS="-Djna.tmpdir=/var/lib/elasticsearch/tmp -Xms2g -Xmx2g"' 
+    create: yes
+  notify:
+    - restart_elastic
+    - daemon_reload
+
+- name: Create a directory /etc/systemd/system/elasticsearch.service.d
+  file:
+    path: /etc/systemd/system/elasticsearch.service.d
+    state: directory
+
+#https://www.elastic.co/guide/en/elasticsearch/reference/5.0/setting-system-settings.html#systemd
+- name: configure to allow lock memory
+  copy:
+    dest: "/etc/systemd/system/elasticsearch.service.d/elasticsearch.conf"
+    content: |
+       [Service]
+       LimitMEMLOCK=infinity
+  notify:
+    - restart_elastic
+    - daemon_reload
+
+#check if memory is locked
+#curl localhost:9200/_nodes?filter_path=**.mlockall
+#curl localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors
+
+- name: Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
+
+- name: start and enable elastisearch
+  service: name=elasticsearch state=started enabled=true
+
+- name: list plugings installed in elasticsearch
+  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin list
+  register: plugin_list
+
+- name: view plugins list in elasticsearch
+  debug:
+    var: plugin_list
+
+#https://packages.atlassian.com/maven-internal/com/atlassian/elasticsearch/buckler-plugin/
+#https://confluence.atlassian.com/bitbucketserverkb/elasticsearch-remote-buckler-installer-failed-without-internet-connection-975023752.html
+#buckler plugin
+
+- name: install buckler plugin
+  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b https://packages.atlassian.com/maven/com/atlassian/elasticsearch/buckler-plugin/2.1.3/buckler-plugin-2.1.3-7.5.2.zip 
+  when: not plugin_list.stdout is search('buckler') 
+
+#https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
+
+- name: Create a directory inside {{elasticsearch_config}}
+  file:
+    path: "{{elasticsearch_config}}/buckler"
+    state: directory
+
+- name: copy buckler template to server
+  template:
+    src: "{{ role_path }}/templates/config.buckler.j2"
+    dest: "{{elasticsearch_config}}/buckler/buckler.yml"
+  notify:
+    - restart_elastic
+    - daemon_reload
+
+
+

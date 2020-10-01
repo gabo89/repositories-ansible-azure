@@ -1,0 +1,9 @@
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+action.auto_create_index: ".watches,.triggered_watches,.watcher-history-*"
+network.host: 0.0.0.0
+bootstrap.memory_lock: true
+cluster.name: Devops
+node.name: {{ansible_hostname}}
+discovery.type: single-node
+xpack.security.enabled: false
