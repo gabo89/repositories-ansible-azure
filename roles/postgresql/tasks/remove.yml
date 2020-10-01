@@ -1,12 +1,12 @@
 ---
-- name: remove postgresql package
+- name: remove postgress package
   yum:
     name: "{{ packages }}"
     state: absent
   vars:
     packages:
-    - postgresql-server 
-    - postgresql-contrib
+    - postgresql12-server 
+    - postgresql12
 
 
 - name: removed dependencies for pip modules

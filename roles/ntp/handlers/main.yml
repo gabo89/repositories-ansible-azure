@@ -1,0 +1,11 @@
+---
+- name: restart ntp
+  service:
+    name: "{{ ntp_daemon }}"
+    state: restarted
+
+- name: restart cron
+  service:
+    name: "{{ ntp_cron_daemon }}"
+    state: restarted
+

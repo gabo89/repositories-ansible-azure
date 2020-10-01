@@ -87,6 +87,14 @@
     enabled: yes
     name: atlbitbucket
 
+- name: stop bitbucket services
+  shell: "{{bitbucket_install_path}}/bin/stop-bitbucket.sh --no-search "
+
+- name:  create directory /home/atlbitbucket
+  file:
+    path: "/home/atlbitbucket"
+    state: directory
+
 #https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
 #https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
 #shared folder of your homepath
@@ -97,9 +105,10 @@
     dest: "{{bitbucket_home_path}}/shared/bitbucket.properties"
     owner: atlbitbucket
     group: atlbitbucket
+    mode: '0666'
  
-- name: start bitbucket services
-  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
+#- name: start bitbucket services
+#  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
 
 
 

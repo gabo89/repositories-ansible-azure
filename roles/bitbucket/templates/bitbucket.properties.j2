@@ -1,10 +1,9 @@
 plugin.search.elasticsearch.baseurl={{elastic_search_ip}}
 plugin.search.elasticsearch.username={{elastic_search_user}}
 plugin.search.elasticsearch.password={{elastic_search_pass}}
-
 hazelcast.group.name={{elastic_search_group}}
 hazelcast.group.password={{elastic_search_group_pass}}
-
+#https://confluence.atlassian.com/bitbucketserver/automated-setup-for-bitbucket-server-776640098.html
 setup.displayName={{displayname}}
 setup.baseUrl={{baseurl}}
 setup.license={{license}}
@@ -12,8 +11,8 @@ setup.sysadmin.username={{admin_user}}
 setup.sysadmin.password={{admin_pass}}
 setup.sysadmin.displayName={{admin_fullname}}
 setup.sysadmin.emailAddress={{admin_email}}
-
 jdbc.driver=org.postgresql.Driver
 jdbc.url=jdbc:postgresql://{{postgresql_server}}:5432/{{postgresql_db}}{{extra_params }}
 jdbc.user={{postgresql_user}}
 jdbc.password={{postgresql_pass}}
+plugin.mirroring.upstream.url=https://bitbucket.company.com

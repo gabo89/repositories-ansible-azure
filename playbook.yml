@@ -16,6 +16,8 @@
     - {role: 'nfs', action_execute: 'install', tags: 'nfs-role'}
     - {role: 'elasticsearch', action_execute: 'install', tags: 'elasticsearch-role'}
     - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
+    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
+    - {role: 'postgresql', action_execute: 'install', tags: 'postgresql-role'}
 - hosts: maquina1
   gather_facts: yes  
   become: true
@@ -24,5 +26,5 @@
     - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
     - {role: 'nfsclient', action_execute: 'install', tags: 'nfs-client-role'}
     - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
-    - {role: 'postgresql', action_execute: 'install', tags: 'postgresql-role'}
+    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
     - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}
