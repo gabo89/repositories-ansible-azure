@@ -139,6 +139,6 @@
   notify:
     - restart_elastic
     - daemon_reload
-
+#curl -s 'http://192.168.30.22:9200/' -u usuariobuckler:p@ssw0rd
 
 
