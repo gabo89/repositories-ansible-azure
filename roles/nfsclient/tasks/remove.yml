@@ -1,7 +1,7 @@
 ---
 
 - name: umount the folder
-  shell: "umount {{nfs_path_on_client}} 2>/dev/null || echo 'already umounted'" 
+  shell: "umount {{nfs_path_on_client}}" 
   args:
     warn: false
 

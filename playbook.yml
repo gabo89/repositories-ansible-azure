@@ -7,33 +7,45 @@
 #when install put maquina 2 first and then maquina1
 #when unistall put maquina1 first and then maquina2
 
+#remove also erase content in shared folder
+#beware!!!! to unmount it first correctly before erase folder
+
 - hosts: maquina2
   gather_facts: yes  
   become: true
   become_method: "sudo"
+  vars:
+    - mode: "install"
   roles:
-    - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
-    - {role: 'nfs', action_execute: 'install', tags: 'nfs-role'}
-    - {role: 'elasticsearch', action_execute: 'install', tags: 'elasticsearch-role'}
-    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
-    - {role: 'postgresql-9.6', action_execute: 'install', tags: 'postgresql-role'}
-    - {role: 'haproxy', action_execute: 'install', tags: 'haproxy-role'}
+    - {role: 'resolve'      	, action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfs'	    	, action_execute: '{{mode}}', tags: 'nfs-role'}
+    - {role: 'elasticsearch'	, action_execute: '{{mode}}', tags: 'elasticsearch-role'}
+    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'postgresql-9.6'	, action_execute: '{{mode}}', tags: 'postgresql-role'}
+    - {role: 'haproxy'		, action_execute: '{{mode}}', tags: 'haproxy-role'}
+
 - hosts: maquina1
   gather_facts: yes  
   become: true
   become_method: "sudo"
+  vars:
+    - mode: "install"
   roles:
-    - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
-    - {role: 'nfsclient', action_execute: 'install', tags: 'nfsclient-role'}
-    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
-    - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}
+    - {role: 'resolve'		, action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfsclient'	, action_execute: '{{mode}}', tags: 'nfsclient-role'}
+    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'bitbucket'	, action_execute: '{{mode}}', tags: 'bitbucket-role'}
+
 - hosts: maquina3
   gather_facts: yes  
   become: true
   become_method: "sudo"
+  vars:
+    - mode: "install"
   roles:
-    - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
-    - {role: 'nfsclient', action_execute: 'install', tags: 'nfsclient-role'}
-    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
-    - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}
+    - {role: 'resolve'		, action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfsclient'	, action_execute: '{{mode}}', tags: 'nfsclient-role'}
+    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'bitbucket'	, action_execute: '{{mode}}', tags: 'bitbucket-role'}
+
 

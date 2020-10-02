@@ -2,6 +2,7 @@
 
 - name: stop bitbucket services
   shell: "{{bitbucket_install_path}}/bin/stop-bitbucket.sh --no-search "
+  ignore_errors: true
 
 - name: Get running processes
   shell: "ps -ef | grep -v grep | grep bitbucket | awk '{print $2}'"

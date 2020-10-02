@@ -10,18 +10,19 @@
       - java-1.8.0-openjdk
       - java-1.8.0-openjdk-devel
       - "{{elasticsearch_version}}"
+      - elasticsearch-5.5.3
 
 - name: remove a key from a url
   rpm_key:
     state: absent
     key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-- name: disable elasticsearch repo
+- name: Add elasticsearch repo
   yum_repository:
     name: elasticsearch
-    description: Elasticsearch repository for 7.x packages
+    description: Elasticsearch repository for 6.x packages
     file: elasticsearch
-    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    baseurl: https://artifacts.elastic.co/packages/6.x/yum
     gpgcheck: yes
     enabled: no
     gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
