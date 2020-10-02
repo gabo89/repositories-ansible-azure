@@ -15,9 +15,9 @@
     - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
     - {role: 'nfs', action_execute: 'install', tags: 'nfs-role'}
     - {role: 'elasticsearch', action_execute: 'install', tags: 'elasticsearch-role'}
-    - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
     - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
     - {role: 'postgresql-9.6', action_execute: 'install', tags: 'postgresql-role'}
+    - {role: 'haproxy', action_execute: 'install', tags: 'haproxy-role'}
 - hosts: maquina1
   gather_facts: yes  
   become: true
@@ -25,7 +25,15 @@
   roles:
     - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
     - {role: 'nfsclient', action_execute: 'install', tags: 'nfsclient-role'}
-    - {role: 'ftpserver', action_execute: 'install', tags: 'ftpserver-role'}
+    - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
+    - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}
+- hosts: maquina3
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  roles:
+    - {role: 'resolve', action_execute: 'install', tags: 'resolve-role'}
+    - {role: 'nfsclient', action_execute: 'install', tags: 'nfsclient-role'}
     - {role: 'ntp', action_execute: 'install', tags: 'ntp-role'}
     - {role: 'bitbucket', action_execute: 'install', tags: 'bitbucket-role'}
 

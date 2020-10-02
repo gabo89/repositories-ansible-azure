@@ -1,0 +1,27 @@
+---
+
+#action_execute
+#install
+#remove
+
+#when install put maquina 2 first and then maquina1
+#when unistall put maquina1 first and then maquina2
+
+- hosts: maquina2
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  tasks:
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.eth1.ipv4.address
+
+- hosts: maquina1
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  tasks:
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.eth1.ipv4.address
+

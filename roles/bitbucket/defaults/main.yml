@@ -11,9 +11,13 @@ bitbucket_install_path: "/opt/atlassian/install"
 elastic_search_ip: "http://192.168.30.22:9200/"
 elastic_search_user: "usuariobuckler"
 elastic_search_pass: "p@ssw0rd"
-elastic_search_group: "Devops"
-elastic_search_group_pass: "p@ssw0rd"
 
+clustering_group: "Devops"
+clustering_group_pass: "p@ssw0rd"
+
+first_node: "192.168.30.21"
+second_node: "192.168.30.23"
+load_balancer_ip: "192.168.30.22"
 #https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
 #https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
 
@@ -22,8 +26,9 @@ admin_pass: "password"
 admin_email: "bitbucketlocal@local.com"
 admin_fullname: "bitbucketlocal"
 
-baseurl: "http://192.168.30.21:7990"
-license: "AAABNQ0ODAoPeNp1kU1vwjAMhu/5FZF22Q5BTasxQIq00fZQqcC28rHDLiYYiNamVZKi8e8X6NC0iR0iWfbrx6+dmxVuaIENjQLKhyM+GEVDGidzGgZhQBK00qjGqVqLsXLrVn6go7cFmgOau/cRTQ9QtnCqk9jgOUjAoTh1Mx6wgJO41g6km0KFYgdro7CULWxMbR93FaiyJ+vqIkonPvG/6meacKZFYh3Yfc/3qQN2mVJJ1BaXaOxJFRIP1A41aInpZ6PM8Ze9iJOZ2YFWtqN6oN5AWesLO+9482OD5wXi2WSSvsbZU066I2SJGBfDOcuCt3uWviwfWLiIVqRIp8I/lvM+54P+ICTfJK/Ps+Rq6bq/zkfhwDg0YgulvXibttUazWy7sH5bwTh5bo3cg8W/P/AF9zaf7DAtAhQ17K61Mf4U6DPf8bZ0MrW2Io4pRQIVAJENmiWWMGzFIRPSIkGMUCXTeQKFX02ff"
+#select correct interface to gather their ips
+baseurl: "http://{{ansible_facts.eth1.ipv4.address}}:7990"
+license: "AAABRg0ODAoPeNp1kF9rwjAUxd/zKQJ72R4ykio+CIXNtgNHtbJWB2Mvt/GqYW0qSSrz2y+2itvAt+T+Ob9z7l2xa2kmHeWCiuGYB+NgRKO4oAEPOIka7UC6OdQYbqE0CivZwto09mlbg6oeZVMT68DuHlMlUVssjnvsxqNsNkveoulzShatkTuwGIPD8KTLBGc8IOeV5HuvzPFXUzAuLuhk5jG32TmaA5ppHE7ExztbFcsXxqMsYfHiNT0b88IQoXZoQmdaJHlbWmnU3qlG9xWP8G0NWt7w0gt5N+qA/crZugen0zhP5iwVIxEMB6MB8b/wbyUzW9DKQkf0WnoNVaORRAa72v+79Lh5W5doss3SorEhu7jIHZhTlg1UFknV+1j5kZN4QGK8hpsoV7byCx29Px2B9ld4+BzT5ABV27HJ9dkn+wGSurDaMCwCFH7Zfd67VV4SApUqjo5FZn5IQHA8AhRvS8VyjAzaKYTzucu6ZkEEZ3kiDQ==X02g8"
 displayname: "Local Bitbucket"
 
 postgresql_server : "192.168.30.22"

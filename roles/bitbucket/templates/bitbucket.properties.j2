@@ -16,3 +16,19 @@ plugin.search.elasticsearch.password={{elastic_search_pass}}
 #https://confluence.atlassian.com/bitbucketserver/bitbucket-server-debug-logging-776640147.html
 #logging.logger.ROOT=DEBUG
 #logging.logger.com.atlassian.bitbucket=DEBUG
+
+#https://confluence.atlassian.com/bitbucketserver/set-up-a-bitbucket-data-center-cluster-996641208.html
+
+hazelcast.network.tcpip=true
+hazelcast.network.tcpip.members={{first_node}}:5701,{{second_node}}:5701
+# The following should uniquely identify your cluster on the LAN.
+hazelcast.group.name={{clustering_group}}
+hazelcast.group.password={{clustering_group_pass}}
+
+#https://confluence.atlassian.com/bitbucketserverkb/you-are-accessing-bitbucket-from-a-url-that-does-not-match-the-configured-base-url-833941720.html
+#https://confluence.atlassian.com/bitbucketserver/securing-bitbucket-server-behind-haproxy-using-ssl-779303273.html
+server.proxy-port=80
+server.redirect-port=80
+server.proxy-name={{load_balancer_ip}}
+server.secure=false
+server.scheme=http

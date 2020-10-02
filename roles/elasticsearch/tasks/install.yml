@@ -35,11 +35,13 @@
     state: present
     key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html
 
 #https://confluence.atlassian.com/bitbucketserver/clustering-with-bitbucket-data-center-776640164.html
 #Elasticsearch 5.5.1 - 5.5.3, 6.5.3, and 6.8.6.
-
-
+#cant work in elasticsearch 6 due to  index.mapping.single_type: true is set, need to edit at template level
+#to disable and allow multiple mapping for one same index
+#6.8.6
 #6.5.3
 - name: Add elasticsearch repo
   yum_repository:
@@ -161,7 +163,7 @@
 #buckler plugin
 
 - name: install buckler plugin
-  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b https://packages.atlassian.com/maven/com/atlassian/elasticsearch/buckler-plugin/2.0.0/buckler-plugin-2.0.0-6.5.3.zip  
+  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b https://packages.atlassian.com/maven-internal/com/atlassian/elasticsearch/buckler-plugin/1.0.4/buckler-plugin-1.0.4-5.5.3.zip 
   register: install_plugin
   when: not plugin_list.stdout is search('buckler') 
 
@@ -185,6 +187,8 @@
     - daemon_reload
     - restart_elastic
 #curl -s 'http://192.168.30.22:9200/' -u usuariobuckler:p@ssw0rd
-
+#curl -X GET "localhost:9200/_template?pretty" -u usuariobuckler:p@ssw0rd
+#curl -X GET "localhost:9200/_aliases?pretty" -u usuariobuckler:p@ssw0rd
+#curl -X GET "localhost:9200/_nodes/stats/indices?pretty" -u usuariobuckler:p@ssw0rd 
 #curl -u bitbucketlocal -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' http://192.168.30.21:7990/rest/indexing/latest/sync
 

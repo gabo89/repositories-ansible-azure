@@ -59,11 +59,11 @@
 
 #disable nfsv2 and nfsv3
 - block:
-  - name: Set RPCNFSDARGS to block v2 , v3
+  - name: Set RPCNFSDARGS to block v2 
     lineinfile:
       dest: /etc/sysconfig/nfs
       regexp: '^RPCNFSDARGS='
-      line: RPCNFSDARGS="-N 2 -N 3"
+      line: RPCNFSDARGS="-N 2 "
     register: disable_old_version
     notify: restart_nfs_config
 

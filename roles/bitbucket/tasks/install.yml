@@ -28,14 +28,14 @@
     enablerepo: "wandisco-git,base"
 
 
-- name: ensure dependencies for pip modules are installed
-  yum:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
-      - gcc
-      - python-devel
+#- name: ensure dependencies for pip modules are installed
+#  yum:
+#    name: "{{ packages }}"
+#    state: present
+#  vars:
+#    packages:
+#      - gcc
+#      - python-devel
 
 #- name: ensure epel is installed
 #  yum:
@@ -99,6 +99,10 @@
 #https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
 #shared folder of your homepath
  
+- name: Print all relevant facts for ip asignation in butbucket
+  debug:
+    var: ansible_facts.eth1.ipv4.address
+
 - name: copy bitbucket.properties template to server
   template:
     src: "{{ role_path }}/templates/bitbucket.properties.j2"
