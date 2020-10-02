@@ -95,6 +95,23 @@
     path: "/home/atlbitbucket"
     state: directory
 
+#https://confluence.atlassian.com/bitbucketserver/adding-and-removing-data-center-nodes-776640178.html
+#add a name to the cluster node
+
+
+- name: Print all relevant facts for hostname asignation in bitbucket
+  debug:
+    var: ansible_facts.hostname
+
+- name: configure clustername for the bitbucket node
+  lineinfile: 
+    dest: "{{bitbucket_install_path}}/bin/_start-webapp.sh"
+    regexp: "^#JVM_SUPPORT_RECOMMENDED_ARGS=" 
+    line: 'JVM_SUPPORT_RECOMMENDED_ARGS=-Dcluster.node.name={{ansible_facts.hostname}}' 
+    create: yes
+
+
+
 #https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
 #https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
 #shared folder of your homepath

@@ -16,6 +16,10 @@
     debug:
       var: ansible_facts.eth1.ipv4.address
 
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.hostname
+
 - hosts: maquina1
   gather_facts: yes  
   become: true
@@ -25,3 +29,20 @@
     debug:
       var: ansible_facts.eth1.ipv4.address
 
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.hostname
+
+- hosts: maquina3
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  tasks:
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.eth1.ipv4.address
+
+
+  - name: Print all available facts
+    debug:
+      var: ansible_facts.hostname

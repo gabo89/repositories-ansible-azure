@@ -27,7 +27,8 @@ admin_email: "bitbucketlocal@local.com"
 admin_fullname: "bitbucketlocal"
 
 #select correct interface to gather their ips
-baseurl: "http://{{ansible_facts.eth1.ipv4.address}}:7990"
+#baseurl: "http://{{ansible_facts.eth1.ipv4.address}}:7990"
+baseurl: "http://{{load_balancer_ip}}"
 license: "AAABRg0ODAoPeNp1kF9rwjAUxd/zKQJ72R4ykio+CIXNtgNHtbJWB2Mvt/GqYW0qSSrz2y+2itvAt+T+Ob9z7l2xa2kmHeWCiuGYB+NgRKO4oAEPOIka7UC6OdQYbqE0CivZwto09mlbg6oeZVMT68DuHlMlUVssjnvsxqNsNkveoulzShatkTuwGIPD8KTLBGc8IOeV5HuvzPFXUzAuLuhk5jG32TmaA5ppHE7ExztbFcsXxqMsYfHiNT0b88IQoXZoQmdaJHlbWmnU3qlG9xWP8G0NWt7w0gt5N+qA/crZugen0zhP5iwVIxEMB6MB8b/wbyUzW9DKQkf0WnoNVaORRAa72v+79Lh5W5doss3SorEhu7jIHZhTlg1UFknV+1j5kZN4QGK8hpsoV7byCx29Px2B9ld4+BzT5ABV27HJ9dkn+wGSurDaMCwCFH7Zfd67VV4SApUqjo5FZn5IQHA8AhRvS8VyjAzaKYTzucu6ZkEEZ3kiDQ==X02g8"
 displayname: "Local Bitbucket"
 
