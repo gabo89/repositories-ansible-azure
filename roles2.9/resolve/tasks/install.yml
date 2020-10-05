@@ -1,0 +1,23 @@
+---
+- name: add to resolv.conf 
+  lineinfile: 
+    dest: /etc/resolv.conf 
+    regexp: "^domain" 
+    line: "domain {{domain_resolve}}" 
+    create: yes
+
+- name: add  {{bamboo_ip}} ip to /etc/hosts 
+  lineinfile: 
+    dest: /etc/hosts 
+    regexp: "^{{bamboo_ip}}" 
+    line: "{{bamboo_ip}} {{bamboo_dns}}" 
+    create: yes
+
+- name: add  {{jira_ip}} ip to /etc/hosts 
+  lineinfile: 
+    dest: /etc/hosts 
+    regexp: "^{{jira_ip}}" 
+    line: "{{jira_ip}} {{jira_dns}}" 
+    create: yes
+
+

@@ -1,0 +1,63 @@
+---
+
+#stop all service
+
+- set_fact: NFS_SERVICE="nfs-server"
+- set_fact: NFS_MAPPING="nfs-idmap"
+
+- name: stop and disable service {{NFS_SERVICE}}
+  service: name={{NFS_SERVICE}} state=stopped enabled=no
+  ignore_errors: true
+
+- name: stop and disable service {{NFS_MAPPING}}
+  service: name={{NFS_MAPPING}} state=stopped enabled=no
+  ignore_errors: true
+
+- name: Ensure rpcbind is stopped (not nfsv4)
+  service: name=rpcbind state=stopped enabled=no
+  when: not nfs_only_v4
+  ignore_errors: true
+
+- name: Ensure nfslock is stopped (not nfsv4)
+  service: name=nfslock state=stopped enabled=no
+  when: not nfs_only_v4
+  ignore_errors: true
+
+#erase necesary files
+
+- name: empty export file
+  copy:
+    dest: "/etc/exports"
+    content: ""
+
+#erase  groups and users
+
+- name: remove directory {{bitbucket_path_for_nfs}}
+  file:
+    path: "{{bitbucket_path_for_nfs}}"
+    state: absent
+
+- name: remove atlbitbucket user
+  user:
+    name: atlbitbucket
+    state: absent
+    remove: yes
+
+- name: remove group
+  group:
+    name: atlbitbucket
+    state: absent
+
+#remove nfs utils and rcpbind
+
+- name: remove nfs_utils rpm
+  yum:
+    name: nfs-utils
+    state: absent
+
+- name: remove rpcbind rpm
+  yum:
+    name: rpcbind
+    state: absent
+
+

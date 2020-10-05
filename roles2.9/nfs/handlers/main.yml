@@ -1,0 +1,4 @@
+---
+- name: restart_nfs_config
+  service: name=nfs-config state=restarted
+  when: nfs_only_v4 | bool

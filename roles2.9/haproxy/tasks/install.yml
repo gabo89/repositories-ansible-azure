@@ -1,0 +1,24 @@
+---
+
+
+
+- name: ensure haproxy is installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - haproxy
+
+#https://confluence.atlassian.com/bitbucketserver/set-up-a-bitbucket-data-center-cluster-996641208.html
+
+- name: copy haproxy template to server
+  template:
+    src: "{{ role_path }}/templates/haproxy.config.j2"
+    dest: "/etc/haproxy/haproxy.cfg"
+  notify:
+    - daemon_reload
+    - restart_haproxy
+
+- name: start_service_haproxy
+  service: name=haproxy state=started enabled=true

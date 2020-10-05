@@ -1,0 +1,21 @@
+---
+#install
+#remove
+action_execute: install
+
+bitbucket_path_for_nfs: "/opt/shared-fs"
+#user 1014 is APNCDES
+bitbucket_user_id: 1014  
+bitbucket_group_id: 1014 
+bitbucket_node1: "192.168.30.21"
+bitbucket_node2: "192.168.30.23"
+nfs_only_v4: true
+
+nfs_exports:
+- path: "{{bitbucket_path_for_nfs}}"
+  export: >-
+   {{ bitbucket_node1 }}(rw,async,no_root_squash,no_subtree_check,insecure,anonuid={{bitbucket_user_id}},anongid={{bitbucket_group_id}})
+   {{ bitbucket_node2 }}(rw,async,no_root_squash,no_subtree_check,insecure,anonuid={{bitbucket_user_id}},anongid={{bitbucket_group_id}})
+
+
+

@@ -1,0 +1,24 @@
+---
+
+- name: add challenge user
+  user:
+      name: challenge
+      comment: challenge_user
+      group: wheel
+      shell: /bin/bash
+      create_home: yes
+      #admin89
+      password: "$1$DtyqIqtR$n9VScv3A7n6aQEC1hiP4J0"
+
+
+- name: ensure ftp and ftp server is installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - ftp
+      - vsftpd
+
+- name: start_service_vsftpd
+  service: name=vsftpd state=started enabled=true

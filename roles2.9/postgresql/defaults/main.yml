@@ -1,0 +1,9 @@
+---
+#install
+#remove
+action_execute: install
+
+database_name: "bitbucketdb"
+database_user: "bitbucket"
+database_pass: "p@ssw0rd"
+

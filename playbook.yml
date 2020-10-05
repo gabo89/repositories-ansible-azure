@@ -17,12 +17,12 @@
   vars:
     - mode: "install"
   roles:
-    - {role: 'resolve'      	, action_execute: '{{mode}}', tags: 'resolve-role'}
-    - {role: 'nfs'	    	, action_execute: '{{mode}}', tags: 'nfs-role'}
-    - {role: 'elasticsearch'	, action_execute: '{{mode}}', tags: 'elasticsearch-role'}
-    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
-    - {role: 'postgresql-9.6'	, action_execute: '{{mode}}', tags: 'postgresql-role'}
-    - {role: 'haproxy'		, action_execute: '{{mode}}', tags: 'haproxy-role'}
+    - {role: 'resolve', action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfs', action_execute: '{{mode}}', tags: 'nfs-role'}
+    - {role: 'elasticsearch', action_execute: '{{mode}}', tags: 'elasticsearch-role'}
+    - {role: 'ntp', action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'postgresql-9.6', action_execute: '{{mode}}', tags: 'postgresql-role'}
+    - {role: 'haproxy', action_execute: '{{mode}}', tags: 'haproxy-role'}
 
 - hosts: maquina1
   gather_facts: yes  
@@ -31,10 +31,10 @@
   vars:
     - mode: "install"
   roles:
-    - {role: 'resolve'		, action_execute: '{{mode}}', tags: 'resolve-role'}
-    - {role: 'nfsclient'	, action_execute: '{{mode}}', tags: 'nfsclient-role'}
-    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
-    - {role: 'bitbucket'	, action_execute: '{{mode}}', tags: 'bitbucket-role'}
+    - {role: 'resolve', action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfsclient', action_execute: '{{mode}}', tags: 'nfsclient-role'}
+    - {role: 'ntp', action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'bitbucket', action_execute: '{{mode}}', tags: 'bitbucket-role'}
 
 - hosts: maquina3
   gather_facts: yes  
@@ -43,9 +43,9 @@
   vars:
     - mode: "install"
   roles:
-    - {role: 'resolve'		, action_execute: '{{mode}}', tags: 'resolve-role'}
-    - {role: 'nfsclient'	, action_execute: '{{mode}}', tags: 'nfsclient-role'}
-    - {role: 'ntp'		, action_execute: '{{mode}}', tags: 'ntp-role'}
-    - {role: 'bitbucket'	, action_execute: '{{mode}}', tags: 'bitbucket-role'}
+    - {role: 'resolve', action_execute: '{{mode}}', tags: 'resolve-role'}
+    - {role: 'nfsclient', action_execute: '{{mode}}', tags: 'nfsclient-role'}
+    - {role: 'ntp', action_execute: '{{mode}}', tags: 'ntp-role'}
+    - {role: 'bitbucket', action_execute: '{{mode}}', tags: 'bitbucket-role'}
 
 

@@ -1,0 +1,15 @@
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+#https://confluence.atlassian.com/bitbucketserverkb/bitbucket-server-code-search-is-unable-to-find-results-from-some-or-all-repositories-858783145.html
+action.auto_create_index: "true"
+network.host: 0.0.0.0
+bootstrap.memory_lock: true
+cluster.name: Devops
+node.name: {{ansible_hostname}}
+discovery.type: single-node
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html
+#index.mapping.single_type: false
+#https://www.elastic.co/guide/en/elasticsearch/reference/6.0/indices-templates.html
+
+#when using elasticsearch 5.5.3 you need to comment this feature, for elastic search 6.x+ uncomment by default
+#xpack.security.enabled: false

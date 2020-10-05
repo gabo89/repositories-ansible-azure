@@ -1,0 +1,43 @@
+---
+
+
+- name: ensure java is removed
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - java-1.8.0-openjdk
+      - java-1.8.0-openjdk-devel
+      - "{{elasticsearch_version}}"
+      - elasticsearch-5.5.3
+
+- name: remove a key from a url
+  rpm_key:
+    state: absent
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: Add elasticsearch repo
+  yum_repository:
+    name: elasticsearch
+    description: Elasticsearch repository for 6.x packages
+    file: elasticsearch
+    baseurl: https://artifacts.elastic.co/packages/6.x/yum
+    gpgcheck: yes
+    enabled: no
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: remove directory /etc/elasticsearch
+  file:
+    path: "/etc/elasticsearch"
+    state: absent
+
+- name: remove directory /var/lib/elasticsearch 
+  file:
+    path: "/var/lib/elasticsearch"
+    state: absent
+
+- name: remove directory /usr/share/elasticsearch 
+  file:
+    path: "/usr/share/elasticsearch"
+    state: absent

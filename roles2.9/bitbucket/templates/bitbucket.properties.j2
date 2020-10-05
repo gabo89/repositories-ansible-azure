@@ -1,0 +1,34 @@
+#https://confluence.atlassian.com/bitbucketserver/automated-setup-for-bitbucket-server-776640098.html
+setup.displayName={{displayname}}
+setup.baseUrl={{baseurl}}
+setup.license={{license}}
+setup.sysadmin.username={{admin_user}}
+setup.sysadmin.password={{admin_pass}}
+setup.sysadmin.displayName={{admin_fullname}}
+setup.sysadmin.emailAddress={{admin_email}}
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://{{postgresql_server}}:5432/{{postgresql_db}}{{extra_params }}
+jdbc.user={{postgresql_user}}
+jdbc.password={{postgresql_pass}}
+plugin.search.elasticsearch.baseurl={{elastic_search_ip}}
+plugin.search.elasticsearch.username={{elastic_search_user}}
+plugin.search.elasticsearch.password={{elastic_search_pass}}
+#https://confluence.atlassian.com/bitbucketserver/bitbucket-server-debug-logging-776640147.html
+#logging.logger.ROOT=DEBUG
+#logging.logger.com.atlassian.bitbucket=DEBUG
+
+#https://confluence.atlassian.com/bitbucketserver/set-up-a-bitbucket-data-center-cluster-996641208.html
+
+hazelcast.network.tcpip=true
+hazelcast.network.tcpip.members={{first_node}}:5701,{{second_node}}:5701
+# The following should uniquely identify your cluster on the LAN.
+hazelcast.group.name={{clustering_group}}
+hazelcast.group.password={{clustering_group_pass}}
+
+#https://confluence.atlassian.com/bitbucketserverkb/you-are-accessing-bitbucket-from-a-url-that-does-not-match-the-configured-base-url-833941720.html
+#https://confluence.atlassian.com/bitbucketserver/securing-bitbucket-server-behind-haproxy-using-ssl-779303273.html
+server.proxy-port=80
+server.redirect-port=80
+server.proxy-name={{load_balancer_ip}}
+server.secure=false
+server.scheme=http
