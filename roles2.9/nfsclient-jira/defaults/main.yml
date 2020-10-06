@@ -5,8 +5,8 @@ action_execute: install
 
 nfs_path_on_client: "/opt/jira/home/shared"
 
-jira_user_id: 1015  
-jira_group_id: 1015 
+jira_user_id: 1001 
+jira_group_id: 1001 
 nfs_server: "192.168.30.22"
 nfs_path: "/opt/jira-fs"
 

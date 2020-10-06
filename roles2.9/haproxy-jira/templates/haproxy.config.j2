@@ -36,8 +36,8 @@ backend bitbucket_http_backend
     stick-table type string len 52 size 5M expire 30m
     stick store-response set-cookie(JSESSIONID)
     stick on cookie(JSESSIONID)
-    server bitbucket01 {{first_node}}:8080 check inter 10000 rise 2 fall 5
-    server bitbucket02 {{second_node}}:8080 check inter 10000 rise 2 fall 5
+    server jira01 {{first_node}}:8080 check inter 10000 rise 2 fall 5
+    server jira02 {{second_node}}:8080 check inter 10000 rise 2 fall 5
 
 
 listen admin

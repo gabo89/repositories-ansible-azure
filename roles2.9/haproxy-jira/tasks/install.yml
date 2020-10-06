@@ -1,7 +1,4 @@
 ---
-
-
-
 - name: ensure haproxy is installed
   yum:
     name: "{{ packages }}"
@@ -10,7 +7,16 @@
     packages:
       - haproxy
 
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: Disable SELinux temporaly
+  shell: "setenforce 0"
+      
 #https://confluence.atlassian.com/bitbucketserver/set-up-a-bitbucket-data-center-cluster-996641208.html
+
+#haproxy -c -f /etc/haproxy/haproxy.cfg 
 
 - name: copy haproxy template to server
   template:

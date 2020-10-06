@@ -1,4 +1,10 @@
 ---
+
+- name: install net-tools
+  yum:  
+    name: net-tools 
+    state: present
+
 - name: add to resolv.conf 
   lineinfile: 
     dest: /etc/resolv.conf 
@@ -20,4 +26,9 @@
     line: "{{jira_ip}} {{jira_dns}}" 
     create: yes
 
-
+- name: add  {{confluence_ip}} ip to /etc/hosts 
+  lineinfile: 
+    dest: /etc/hosts 
+    regexp: "^{{confluence_ip}}" 
+    line: "{{confluence_ip}} {{confluence_dns}}" 
+    create: yes

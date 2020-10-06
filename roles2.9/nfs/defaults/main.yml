@@ -9,8 +9,8 @@ bitbucket_group_id: 1014
 
 
 jira_path_for_nfs: "/opt/jira-fs"
-jira_user_id: 1015  
-jira_group_id: 1015 
+jira_user_id: 1001  
+jira_group_id: 1001 
 
 bitbucket_node1: "192.168.30.21"
 bitbucket_node2: "192.168.30.23"

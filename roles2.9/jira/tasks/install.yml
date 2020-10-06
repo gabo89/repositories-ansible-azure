@@ -1,10 +1,22 @@
 ---
+
+
+#Error Messages: [This JIRA cluster has other active nodes. Please shutdown other active nodes, You are currently attached to node 'red-#node-3'. Nodes 'red-node-1' are also active., It may take up to five minutes for shutdown nodes to be removed from the cluster.]
+
+#both node in jira can be configured at the same time
+
 - name: copy jira bin 
   copy:
-    src: "{{ role_path }}/files/atlassian-jira-software-7.8.1-x64.bin"
-    dest: "/home/atlassian-jira-software-7.8.1-x64.bin"
+    src: "{{ role_path }}/files/atlassian-jira-software-7.8.0-x64.bin"
+    dest: "/home/atlassian-jira-software-7.8.0-x64.bin"
     mode: '0755'
 
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: Disable SELinux temporaly
+  shell: "setenforce 0"
 
 #https://confluence.atlassian.com/bitbucketserver/running-the-bitbucket-server-installer-776640183.html
 
@@ -16,7 +28,7 @@
     dest: "/home/response.varfile"
 
 - name: install jira server
-  shell: "/home/atlassian-jira-software-7.8.1-x64.bin -q -varfile /home/response.varfile"
+  shell: "/home/atlassian-jira-software-7.8.0-x64.bin -q -varfile /home/response.varfile"
   register: install_results
   ignore_errors: true
 
@@ -65,5 +77,7 @@
 - name : start service jira
   shell: service jira start
 
-
+- name: press enter when jira is full configured in node {{ansible_hostname}}
+  pause: 
+    prompt: "press enter when node is configured"
 
