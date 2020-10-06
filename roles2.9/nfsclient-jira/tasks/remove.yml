@@ -1,0 +1,62 @@
+---
+
+- name: umount the folder
+  shell: "umount {{nfs_path_on_client}}" 
+  args:
+    warn: false
+
+
+- name: remove config from fstab
+  lineinfile: 
+    dest: /etc/fstab 
+    regexp: "^{{ item.path }} " 
+    state: absent
+  with_items: "{{ nfs_fstab }}"
+  register: nfs_exports_result
+
+#stop necesary services
+
+- set_fact: NFS_SERVICE="rpcbind"
+- set_fact: NFS_MAPPING="nfs-idmap"
+
+- name: stop and disable service {{NFS_SERVICE}}
+  service: name={{NFS_SERVICE}} state=stopped enabled=no
+  ignore_errors: true
+
+- name: stop and disable service {{NFS_MAPPING}}
+  service: name={{NFS_MAPPING}} state=stopped enabled=no
+  ignore_errors: true
+
+#create necesary files and users
+
+#- name: remove directory {{nfs_path_on_client}}
+#  file:
+#    path: "{{nfs_path_on_client}}"
+#    state: absent
+
+#- name: remove atlbitbucket user
+#  user:
+#    name: atlbitbucket
+#    state: absent
+#    remove: yes
+
+#- name: remove group
+#  group:
+#    name: atlbitbucket
+#    state: absent
+
+#remove nfs utils and rcpbind
+
+- name: remove nfs_utils rpm
+  yum:
+    name: nfs-utils
+    state: absent
+
+- name: remove rpcbind rpm
+  yum:
+    name: rpcbind
+    state: absent
+
+
+
+

@@ -26,7 +26,7 @@
     comment: atlassian bitbucket
     group: atlbitbucket
     shell: /bin/bash
-    create_home: no
+    createhome: no
     uid: "{{bitbucket_user_id}}"
 
 - name: Create a directory {{bitbucket_path_for_nfs}}

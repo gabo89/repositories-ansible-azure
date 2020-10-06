@@ -101,13 +101,13 @@
 
 - name: Print all relevant facts for hostname asignation in bitbucket
   debug:
-    var: ansible_facts.hostname
+    var: ansible_hostname
 
 - name: configure clustername for the bitbucket node
   lineinfile: 
     dest: "{{bitbucket_install_path}}/bin/_start-webapp.sh"
     regexp: "^#JVM_SUPPORT_RECOMMENDED_ARGS=" 
-    line: 'JVM_SUPPORT_RECOMMENDED_ARGS=-Dcluster.node.name={{ansible_facts.hostname}}' 
+    line: 'JVM_SUPPORT_RECOMMENDED_ARGS=-Dcluster.node.name={{ansible_hostname}}' 
     create: yes
 
 
@@ -118,7 +118,7 @@
  
 - name: Print all relevant facts for ip asignation in butbucket
   debug:
-    var: ansible_facts.eth1.ipv4.address
+    var: ansible_eth1.ipv4.address
 
 - name: copy bitbucket.properties template to server
   template:

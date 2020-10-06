@@ -13,29 +13,14 @@
 #create necesary files and users
 #showmount -e {{nfs_server}}
 
-- name: create group
-  group:
-    name: atlbitbucket
-    system: yes
-    state: present
-    gid: "{{bitbucket_group_id}}"
-
-- name: add atlbitbucket user
-  user:
-    name: atlbitbucket
-    comment: atlassian bitbucket
-    group: atlbitbucket
-    shell: /bin/bash
-    createhome: no
-    uid: "{{bitbucket_user_id}}"
 
 - name: Create a directory {{nfs_path_on_client}}
   file:
     path: "{{nfs_path_on_client}}"
     state: directory
     mode: '0777'
-    owner: "{{bitbucket_user_id}}"
-    group: "{{bitbucket_group_id}}"
+    owner: "{{jira_user_id}}"
+    group: "{{jira_group_id}}"
 
 #install nfs utils
 

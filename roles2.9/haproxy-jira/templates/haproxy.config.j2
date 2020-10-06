@@ -1,0 +1,47 @@
+global
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+    tune.ssl.default-dh-param 1024
+defaults
+    log                     global
+    option                  dontlognull
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+    errorfile               408 /dev/null	# Workaround for Chrome 35-36 bug.  See http://blog.haproxy.com/2014/05/26/haproxy-and-http-errors-408-in-chrome/
+
+frontend bitbucket_http_frontend
+    bind *:80
+    default_backend bitbucket_http_backend
+
+backend bitbucket_http_backend
+    mode http
+    option httplog
+    option httpchk GET /status
+    option forwardfor
+    option http-server-close
+    appsession JSESSIONID len 52 timeout 1h
+    balance roundrobin
+    cookie JSESSIONID prefix
+    stick-table type string len 52 size 5M expire 30m
+    stick store-response set-cookie(JSESSIONID)
+    stick on cookie(JSESSIONID)
+    server bitbucket01 {{first_node}}:8080 check inter 10000 rise 2 fall 5
+    server bitbucket02 {{second_node}}:8080 check inter 10000 rise 2 fall 5
+
+
+listen admin
+    mode http
+    bind *:8090
+    stats enable
+    stats uri /

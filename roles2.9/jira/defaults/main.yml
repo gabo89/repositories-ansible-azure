@@ -1,0 +1,23 @@
+---
+#install
+#remove
+action_execute: install
+
+jira_home_path: "/opt/jira/home"
+jira_install_path: "/opt/jira/install"
+jira_shared_folder: "/opt/jira/home/shared"
+
+#https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
+#https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
+
+admin_user: "jiralocal"
+admin_pass: "password"
+admin_email: "jiralocal@local.com"
+admin_fullname: "jiralocal"
+
+
+postgresql_server : "192.168.30.22"
+postgresql_db : "jiradb"
+postgresql_user: "jira"
+postgresql_pass: "p@ssw0rd"
+

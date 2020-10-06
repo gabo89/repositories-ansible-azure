@@ -1,0 +1,69 @@
+---
+- name: copy jira bin 
+  copy:
+    src: "{{ role_path }}/files/atlassian-jira-software-7.8.1-x64.bin"
+    dest: "/home/atlassian-jira-software-7.8.1-x64.bin"
+    mode: '0755'
+
+
+#https://confluence.atlassian.com/bitbucketserver/running-the-bitbucket-server-installer-776640183.html
+
+#https://github.com/Praqma/jira/blob/master/jira-response.varfile
+
+- name: copy response.varfile template to server
+  template:
+    src: "{{ role_path }}/templates/response.varfile.j2"
+    dest: "/home/response.varfile"
+
+- name: install jira server
+  shell: "/home/atlassian-jira-software-7.8.1-x64.bin -q -varfile /home/response.varfile"
+  register: install_results
+  ignore_errors: true
+
+- name: view install results
+  debug:
+    var: install_results
+
+- name: make sure jira is responding on configure port
+  wait_for: port=8080 delay=3 timeout=300
+
+- name : stop service jira
+  service:
+    state: stopped
+    name: jira
+
+- name: pause for 1 minute
+  pause: 
+    minutes: 1
+
+- name: copy dbconfig template to server
+  template:
+    src: "{{ role_path }}/templates/dbconfig.xml.j2"
+    dest: "{{jira_home_path}}/dbconfig.xml"
+    owner: jira
+    group: jira
+
+- name: copy dbconfig template to server
+  template:
+    src: "{{ role_path }}/templates/cluster.properties.j2"
+    dest: "{{jira_home_path}}/cluster.properties"
+    owner: jira
+    group: jira
+
+- name: Get running processes
+  shell: "ps -ef | grep -v grep | grep jira | awk '{print $2}'"
+  register: running_processes
+
+- name: Kill running processes
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+
+- name: pause for 1 minute
+  pause: 
+    minutes: 1
+
+- name : start service jira
+  shell: service jira start
+
+
+
