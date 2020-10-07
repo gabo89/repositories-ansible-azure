@@ -3,7 +3,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-N = 3
+N = 2
 (1..N).each do |machine_id|
   config.vm.define "maquina#{machine_id}" do |machine|
     	machine.vm.box = "centos/7"

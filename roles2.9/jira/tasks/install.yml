@@ -5,10 +5,32 @@
 
 #both node in jira can be configured at the same time
 
+- name: ensure java is installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - java-1.8.0-openjdk
+      - java-1.8.0-openjdk-devel
+
+
 - name: copy jira bin 
   copy:
     src: "{{ role_path }}/files/atlassian-jira-software-7.8.0-x64.bin"
     dest: "/home/atlassian-jira-software-7.8.0-x64.bin"
+    mode: '0755'
+
+- name: copy jira custom bin 
+  copy:
+    src: "{{ role_path }}/files/atlassian-jira-software-7.13.17.tar.gz"
+    dest: "/home/atlassian-jira-software-7.13.17.tar.gz"
+    mode: '0755'
+
+- name: copy postgresql custom jar  
+  copy:
+    src: "{{ role_path }}/files/postgresql-42.2.16.jar"
+    dest: "/home/postgresql-42.2.16.jar"
     mode: '0755'
 
 - name: Disable SELinux
@@ -55,7 +77,7 @@
     owner: jira
     group: jira
 
-- name: copy dbconfig template to server
+- name: copy cluster template to server
   template:
     src: "{{ role_path }}/templates/cluster.properties.j2"
     dest: "{{jira_home_path}}/cluster.properties"
@@ -77,7 +99,49 @@
 - name : start service jira
   shell: service jira start
 
-- name: press enter when jira is full configured in node {{ansible_hostname}}
-  pause: 
-    prompt: "press enter when node is configured"
+- name: ensure dependencies for pip modules are installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - gcc
+      - python-devel
+
+- name: ensure epel is installed
+  yum:
+    name: epel-release
+    state: present
+
+- name: ensure python-pip is installed
+  yum:
+    name: python-pip
+    state: present
+
+- name: ensure python-wheel is installed
+  yum:
+    name: python-wheel
+    state: present
+
+- name: Make sure  setuptools is installed
+  pip:
+    name: setuptools
+    state: present
+
+- name: Make sure  mechanize is installed
+  pip:
+    name: mechanize
+    state: present
+
+#https://bitbucket.newverveconsulting.com/projects/PUB/repos/auto_atlassian_setup/browse/auto-jira-setup.py
+#
+
+- name: copy setup template to server
+  template:
+    src: "{{ role_path }}/templates/setup.py.j2"
+    dest: "/home/setup.py"
+    mode: "755"
+
+- name : start python setup for jira
+  shell: python /home/setup.py
 

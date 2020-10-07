@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+import mechanize
+
+jira_title = "Automated JIRA install"
+jira_base_url = "http://{{jira_url_base}}/"
+jira_admin_email = "{{admin_email}}"
+jira_admin_user = "{{admin_user}}"
+jira_admin_pass = "{{admin_pass}}"
+jira_admin_fullname = "{{admin_fullname}}"
+jira_license_key="{{jira_license_key}}"
+url="http://{{ansible_facts.eth1.ipv4.address}}:8080/"
+
+br = mechanize.Browser()
+br.set_handle_robots(False)
+br.open(url)
+br.select_form(nr=0)
+print br.form
+
+br.form['title'] = jira_title
+br.form['baseURL'] = jira_base_url
+
+res = br.submit()
+content = res.read()
+
+print "Setup Title and BaseURL OK"
+
+br.select_form(nr=1)
+print br.form
+
+br.form['setupLicenseKey']=jira_license_key
+
+res = br.submit()
+content = res.read()
+
+print "Set License Key OK"
+
+br.select_form(nr=0)
+print br.form
+
+br.form['fullname'] = jira_admin_fullname
+br.form['email'] = jira_admin_email
+br.form['username'] = jira_admin_user
+br.form['password'] = jira_admin_pass
+br.form['confirm'] = jira_admin_pass
+
+res = br.submit()
+content = res.read()
+
+print "Created admin user OK"
+
+br.select_form(nr=0)
+br.submit()
+
+print "Configured mail server OK"
+
+print "DONE"
+
