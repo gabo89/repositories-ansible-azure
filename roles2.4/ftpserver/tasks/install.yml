@@ -6,7 +6,7 @@
       comment: challenge_user
       group: wheel
       shell: /bin/bash
-      create_home: yes
+      createhome: yes
       #admin89
       password: "$1$DtyqIqtR$n9VScv3A7n6aQEC1hiP4J0"
 

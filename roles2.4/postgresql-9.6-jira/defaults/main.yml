@@ -1,0 +1,9 @@
+---
+#install
+#remove
+action_execute: install
+
+database_name: "jiradb"
+database_user: "jira"
+database_pass: "p@ssw0rd"
+

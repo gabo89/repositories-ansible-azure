@@ -1,0 +1,15 @@
+---
+
+
+
+- name: ensure haproxy is removed
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - haproxy
+
+
+
+

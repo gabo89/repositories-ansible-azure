@@ -13,22 +13,6 @@
 
 #create necesary files and users
 
-- name: create group
-  group:
-    name: atlbitbucket
-    system: yes
-    state: present
-    gid: "{{bitbucket_group_id}}"
-
-- name: add atlbitbucket user
-  user:
-    name: atlbitbucket
-    comment: atlassian bitbucket
-    group: atlbitbucket
-    shell: /bin/bash
-    createhome: no
-    uid: "{{bitbucket_user_id}}"
-
 - name: Create a directory {{bitbucket_path_for_nfs}}
   file:
     path: "{{bitbucket_path_for_nfs}}"
@@ -36,6 +20,14 @@
     mode: '0777'
     owner: "{{bitbucket_user_id}}"
     group: "{{bitbucket_group_id}}"
+
+- name: Create a directory {{jira_path_for_nfs}}
+  file:
+    path: "{{jira_path_for_nfs}}"
+    state: directory
+    mode: '0777'
+    owner: "{{jira_user_id}}"
+    group: "{{jira_group_id}}"
 
 #install nfs utils and rcpbind
 

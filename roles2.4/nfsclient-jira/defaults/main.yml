@@ -3,12 +3,12 @@
 #remove
 action_execute: install
 
-nfs_path_on_client: "/opt/atlassian/home/shared"
+nfs_path_on_client: "/opt/jira/home/shared"
 
-bitbucket_user_id: 1014  
-bitbucket_group_id: 1014 
+jira_user_id: 1002
+jira_group_id: 1002
 nfs_server: "192.168.30.22"
-nfs_path: "/opt/shared-fs"
+nfs_path: "/opt/jira-fs"
 
 nfs_fstab:
 - path: "{{nfs_server}}:{{nfs_path}}"
