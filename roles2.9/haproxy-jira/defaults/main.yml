@@ -1,9 +1,0 @@
----
-#install
-#remove
-action_execute: install
-
-first_node: "192.168.30.21"
-second_node: "192.168.30.23"
-
-

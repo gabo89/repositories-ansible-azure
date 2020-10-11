@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+import mechanize
+
+
+confluence_admin_email = "{{admin_email}}"
+confluence_admin_user = "{{admin_user}}"
+confluence_admin_pass = "{{admin_pass}}"
+confluence_admin_fullname = "{{admin_fullname}}"
+
+confluence_license_key="{{confluence_license_key}}"
+
+postgres_host = "{{postgresql_server}}"
+postgres_user = "{{postgresql_user}}"
+postgres_pass = "{{postgresql_pass}}"
+postgres_db   = "{{postgresql_db}}"
+
+
+url="http://{{ansible_eth1.ipv4.address}}:8090/"
+
+br = mechanize.Browser()
+br.set_handle_robots(False)
+br.open(url)
+br.select_form(nr=0)
+print br.form
+
+br.form.find_control('setupType').readonly = False
+br.form['setupType'] = 'custom'
+
+res = br.submit()
+print "Submitted custom install type OK"
+
+br.select_form(nr=0)
+print br.form
+res = br.submit()
+
+print "Submitted add-ons OK"
+
+br.select_form(nr=0)
+print br.form
+br.form['confLicenseString']=confluence_license_key
+br.submit()
+
+print "Submitted license OK"
+
+
+# Select postgresql as our db
+br.select_form(nr=0)
+print br.form
+
+br.form.find_control('dbChoice').readonly = False
+br.form['dbChoice'] = 'postgres'
+br.submit()
+
+br.select_form(nr=0)
+print br.form
+
+br.form['dbConfigInfo.databaseType'] = ["postgresql"]
+br.form['dbConfigInfo.simple'] = ["true"]
+br.form['dbConfigInfo.databaseName'] = postgres_db
+br.form['dbConfigInfo.userName'] = postgres_user
+br.form['dbConfigInfo.password'] = postgres_pass
+br.form['dbConfigInfo.hostname'] = postgres_host
+br.form['dbConfigInfo.port'] = "5432"
+
+br.submit()
+
+print "Submitted postgresql host OK"
+
+# Now we select the type of site as an empty site
+br.select_form(nr=1)
+print br.form
+br.submit()
+
+print "Set up as empty site OK"
+
+# We want to manage users internally - Crowd/JIRA configured later on
+br.select_form(nr=0)
+print br.form
+br.submit()
+
+print "Set up internal user management OK"
+
+br.select_form(nr=0)
+print br.form
+
+br.form['fullName'] = confluence_admin_fullname
+br.form['email'] = confluence_admin_email
+br.form['username'] = confluence_admin_user
+br.form['password'] = confluence_admin_pass
+br.form['confirm'] = confluence_admin_pass
+br.submit()
+
+print "Set up admin OK"
+# And we're done!
+
+print "DONE"

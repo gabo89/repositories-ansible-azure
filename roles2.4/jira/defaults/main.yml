@@ -16,10 +16,10 @@ admin_email: "jiralocal@local.com"
 admin_fullname: "jiralocal"
 
 
-jira_url_base: "192.168.30.22"
+jira_url_base: "192.168.30.21"
 jira_license_key: "AAABlg0ODAoPeNp9kk1v4jAQhu/5FZb20j04ciiFFilSu4m3pQuhIrR72ctgBupVcKKxQ7f/fvNBBS0fR9vzzvvMO/42K5FNlGOix8TNoHs1uLxmUTxjHdER3ooQzWteFEj+SCs0FuVCO52bUCYzOX2aDlPpJeV6jjRZPlskG/LAi3LjQLkE1hiuYE4aM1XCgnJ7u1qDznyVr72/msA/kD6VpF7BYgwOw5qBB4KLvrd1n70X2LSNJuOxnEbDu9HHk/xXaHrf0wVc9D5Q5LiyPc2SIm2QhnH44zn5zeP+z1/85a4v+YO8H7egBeWLUjm/PnCbL90bEPpVZ73B0FGJ58oqKIjQOKS2NC3nVpEumiB34tMJH9nDsSSqISsTA0adSOMM48Emtj5VKKNhnMqEj4Je0O1eCtG2ORhKJuGRsuNuqQOqlUvILHoTWoHRFpqxrQOzgCw36EWEzd3Xz5C1aC8Vaa3ofMqnQSpI2+1eYtxl/VhBsHQLwS7qEVg7w/c/AyY3kJWNYYt+sN0z0e8T7Ot2Pdvzf+v3MU4wLAIUD2GYf9h+Ju8d5jN+wy23OlqIEZQCFEIBxf4huh4OGurnihv0AhasG2VwX02jj" 
-postgresql_server : "192.168.30.22"
-postgresql_db : "jiradb"
-postgresql_user: "jira"
-postgresql_pass: "p@ssw0rd"
-
+postgresql_server : "servernumero1.postgres.database.azure.com"
+postgresql_db : "jiradb2"
+postgresql_user: "jiralocal@servernumero1"
+postgresql_pass: "Password89fiera"
+postgresql_extra: "?ssl=true&amp;sslmode=require"

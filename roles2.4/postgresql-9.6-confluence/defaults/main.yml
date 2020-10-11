@@ -1,0 +1,9 @@
+---
+#install
+#remove
+action_execute: install
+
+database_name: "confluencedb"
+database_user: "confluence"
+database_pass: "p@ssw0rd"
+

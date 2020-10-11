@@ -1,0 +1,24 @@
+---
+#install
+#remove
+action_execute: install
+
+confluence_home_path: "/opt/confluence/home"
+confluence_install_path: "/opt/confluence/install"
+
+#https://confluence.atlassian.com/bitbucketserver/bitbucket-server-config-properties-776640155.html
+#https://confluence.atlassian.com/bitbucketserver/how-to-install-and-configure-a-remote-elasticsearch-instance-815577748.html
+
+admin_user: "confluencelocal"
+admin_pass: "password"
+admin_email: "confluencelocal@local.com"
+admin_fullname: "confluencelocal"
+
+
+confluence_license_key: "AAABMg0ODAoPeNp1kF9rwjAUxd/zKQJ72R4qppsKQmBbW0RorbNu7GEv13h1gTSVm1Tmt1+0++PGBjcQcs85+d17UbWWl8pzIbi4GceD8WDEk3TJ437cZyk6RXrndWNl0tiNadEq5JcV0h7p6mXMsz2YFo4ClhCeLil4lEd7JELFLBg9KD+DGuUWVqTRqBbW1LjbbQ3a9FRTMxXSe0Gl9yg9tdg9VB7II8kNGIefQVkRTP8nfROdBeVaoXW4POzwxJGURZEtkuldzkzXekJyR0/MQrz1aCFMmr3tNB3OBhKhWElbsNp1fzgPdg2msci6rUxTeT8RZZTPH4oovu6n0XM1KViVzWQ4US6GYjgaDgT7YAr6fJr+bJ2YZ229Qio3jy6gyejL8DfUvCX1Cg5/b/8drSSeajAsAhQgAUUUTE8/PuGePyZS634EHORA8wIUeWhrXenSAS8HdV0PKNVIO2+ZF5k=X02fb" 
+postgresql_server : "192.168.30.22"
+postgresql_db : "confluencedb"
+postgresql_user: "confluence"
+postgresql_pass: "p@ssw0rd"
+#postgresql_extra: "?ssl=true&amp;sslmode=require"
+postgresql_extra: ""

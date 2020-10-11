@@ -18,13 +18,13 @@
     - mode: "install"
   roles:
     - {role: 'resolve', action_execute: '{{mode}}', tags: 'resolve-role'}
-    - {role: 'nfs', action_execute: '{{mode}}', tags: 'nfs-role'}
+#    - {role: 'nfs-jira', action_execute: '{{mode}}', tags: 'nfs-role'}
 #    - {role: 'elasticsearch', action_execute: '{{mode}}', tags: 'elasticsearch-role'}
     - {role: 'ntp', action_execute: '{{mode}}', tags: 'ntp-role'}
-    - {role: 'ftpserver', action_execute: '{{mode}}', tags: 'ftp-role'}
+#    - {role: 'ftpserver', action_execute: '{{mode}}', tags: 'ftp-role'}
 #    - {role: 'postgresql-9.6', action_execute: '{{mode}}', tags: 'postgresql-role'}
-    - {role: 'postgresql-9.6-jira', action_execute: '{{mode}}', tags: 'postgresql-jira-role'}
-    - {role: 'haproxy-jira', action_execute: '{{mode}}', tags: 'haproxy-role'}
+    - {role: 'postgresql-9.6-confluence', action_execute: '{{mode}}', tags: 'postgresql-jira-role'}
+#    - {role: 'haproxy-jira', action_execute: '{{mode}}', tags: 'haproxy-role'}
 
 - hosts: maquina1
   gather_facts: yes  
@@ -35,12 +35,8 @@
   roles:
     - {role: 'resolve', action_execute: '{{mode}}', tags: 'resolve-role'}
 #    - {role: 'nfsclient', action_execute: '{{mode}}', tags: 'nfsclient-role'}
-    - {role: 'nfsclient-jira', action_execute: '{{mode}}', tags: 'nfsclientjira-role'}
+#    - {role: 'nfsclient-jira', action_execute: '{{mode}}', tags: 'nfsclientjira-role'}
     - {role: 'ntp', action_execute: '{{mode}}', tags: 'ntp-role'}
-    - {role: 'ftpserver', action_execute: '{{mode}}', tags: 'ftp-role'}
+#    - {role: 'ftpserver', action_execute: '{{mode}}', tags: 'ftp-role'}
 #    - {role: 'bitbucket', action_execute: '{{mode}}', tags: 'bitbucket-role'}
-    - {role: 'jira', action_execute: '{{mode}}', tags: 'jira-role'}
-
-
-
-
+    - {role: 'confluence', action_execute: '{{mode}}', tags: 'jira-role'}

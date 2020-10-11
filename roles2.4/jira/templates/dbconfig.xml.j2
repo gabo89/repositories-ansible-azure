@@ -6,7 +6,7 @@
   <database-type>postgres72</database-type>
   <schema-name>public</schema-name>
   <jdbc-datasource>
-    <url>jdbc:postgresql://{{postgresql_server}}:5432/{{postgresql_db}}</url>
+    <url>jdbc:postgresql://{{postgresql_server}}:5432/{{postgresql_db}}{{postgresql_extra}}</url>
     <driver-class>org.postgresql.Driver</driver-class>
     <username>{{postgresql_user}}</username>
     <password>{{postgresql_pass}}</password>

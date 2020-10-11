@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {	
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.formatOnType": true,
+		"editor.autoClosingQuotes": "always",
+		"editor.autoClosingBrackets": "always",
+		"workbench.editor.highlightModifiedTabs": true,
+		"files.autoSave": "afterDelay",
+		"explorer.sortOrder": "type",
+		"files.trimFinalNewlines": true,
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/venv": true,
+			"**/.DS_Store": true,
+			"**/.gitignore":true,
+			"**/.terraform": true,
+			"*.tfstate*" : true
+		},
+		"terraform.languageServer": {
+			"external": true,
+			"pathToBinary": "",
+			"args": [
+				"serve"
+			],
+			"maxNumberOfProblems": 100,
+			"trace.server": "off"
+		},
+		"azureTerraform.terminal": "integrated",
+	}
+}
