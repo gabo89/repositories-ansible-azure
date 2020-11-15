@@ -1,0 +1,27 @@
+
+#sudo systemctl show -p DefaultLimitNOFILE
+#/etc/systemd/system.conf
+#/etc/systemd/user.conf
+#DefaultLimitNOFILE=65535
+#https://askubuntu.com/questions/884281/open-files-limit-not-reflecting-config-changes
+#https://alvinalexander.com/blog/post/linux-unix/linux-lsof-command/
+#ps -ef | grep bitbucket
+#lsof -p (pid) | wc -l
+
+[Unit]
+Description=Bitbucket  the Git solution for professional teams
+After=syslog.target network.target
+	 
+[Service]
+Type=forking
+User=atlbitbucket
+Group=atlbitbucket
+PIDFile={{bitbucket_home_path}}/log/bitbucket.pid
+ExecStart={{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search 
+ExecStop={{bitbucket_install_path}}/bin/stop-bitbucket.sh --no-search 
+
+LimitNOFILE=4096
+LimitNPROC=4096
+	 
+[Install]
+WantedBy=multi-user.target

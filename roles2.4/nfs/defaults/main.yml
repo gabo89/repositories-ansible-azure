@@ -4,8 +4,8 @@
 action_execute: install
 
 bitbucket_path_for_nfs: "/opt/shared-fs"
-bitbucket_user_id: 1014  
-bitbucket_group_id: 1014 
+bitbucket_user_id: 1003  
+bitbucket_group_id: 1003 
 
 
 bitbucket_node1: "192.168.30.21"

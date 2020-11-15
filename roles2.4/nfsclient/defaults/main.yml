@@ -5,8 +5,8 @@ action_execute: install
 
 nfs_path_on_client: "/opt/atlassian/home/shared"
 
-bitbucket_user_id: 1014  
-bitbucket_group_id: 1014 
+bitbucket_user_id: 1003  
+bitbucket_group_id: 1003 
 nfs_server: "192.168.30.22"
 nfs_path: "/opt/shared-fs"
 

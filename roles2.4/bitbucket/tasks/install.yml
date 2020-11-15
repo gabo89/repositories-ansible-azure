@@ -78,9 +78,6 @@
   debug:
     var: install_results
 
-- name: make sure bitbucket is responding on configure port
-  wait_for: port=7990 delay=3 timeout=300
-
 - name : stop service atlbitbucket
   systemd:
     state: stopped
@@ -89,6 +86,15 @@
 
 - name: stop bitbucket services
   shell: "{{bitbucket_install_path}}/bin/stop-bitbucket.sh --no-search "
+
+- name: Recursively change ownership of a directory {{bitbucket_home_path}}/shared/ 
+  file:
+    path: "{{bitbucket_home_path}}/shared"
+    state: directory
+    recurse: yes
+    owner: atlbitbucket
+    group: atlbitbucket
+
 
 - name:  create directory /home/atlbitbucket
   file:
@@ -127,9 +133,30 @@
     owner: atlbitbucket
     group: atlbitbucket
     mode: '0666'
+
+
+- name: copy bitbucket.service template to server
+  template:
+    src: "{{ role_path }}/templates/bitbucket.service.j2"
+    dest: "/etc/systemd/system/bitbucket.service"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: copy ulimit template to server
+  template:
+    src: "{{ role_path }}/templates/ulimit.j2"
+    dest: "/etc/security/limits.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
  
-- name: start bitbucket services
-  shell: "{{bitbucket_install_path}}/bin/start-bitbucket.sh --no-search "
+- name : start service atlbitbucket
+  systemd:
+    state: started
+    enabled: yes
+    name: bitbucket
 
 
 

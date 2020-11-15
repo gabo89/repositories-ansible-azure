@@ -25,4 +25,4 @@ wheel        0.34.2
 
 /opt/project/repositories-ansible-azure/ansible2.4/bin/ansible --version
 
-/opt/project/repositories-ansible-azure/ansible2.4/bin/ansible-playbook -i inventory/host playbook.yml
+/opt/project/repositories-ansible-azure/ansible2.4/bin/ansible-playbook -i inventory/host playbook-bitbucket.yml
