@@ -1,0 +1,17 @@
+ansible-galaxy collection install jfrog.installers
+------------------------------------------------------------
+Process install dependency map
+Starting collection install process
+Installing 'jfrog.installers:1.1.2' to '/home/gabocuadros/.ansible/collections/ansible_collections/jfrog/installers'
+
+------------------------------------------------------------
+pwd
+/home/gabocuadros/.ansible/collections/ansible_collections/jfrog/installers/roles
+
+cp -R  artifactory /opt/project/repositories-ansible-azure/roles
+cp -R  postgres /opt/project/repositories-ansible-azure/roles
+cp -R  xray /opt/project/repositories-ansible-azure/roles
+cp -R  artifactory_nginx /opt/project/repositories-ansible-azure/roles
+cp -R  artifactory_nginx_ssl /opt/project/repositories-ansible-azure/roles
+
+ls -ls /opt/project/repositories-ansible-azure/roles/

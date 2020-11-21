@@ -1,0 +1,55 @@
+---
+- hosts: maquina1
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  vars:
+    postgres_server_initdb_become: true
+    postgres_server_user: root
+    dbs:
+    - { db_name: "artifactory", db_owner: "artifactory" }
+    - { db_name: "xraydb", db_owner: "xray" }
+    db_users:
+    - { db_user: "artifactory", db_password: "artifactory" }
+    - { db_user: "xray", db_password: "xray" }
+  roles:
+    - {role: 'postgres', tags: 'postgres-role'}
+- hosts: maquina2
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  vars:
+    artifactory_license1: cHJvZHVjdHM6CiAgYXJ0aWZhY3Rvcnk6CiAgICBwcm9kdWN0OiBaWGh3YVhKbGN6b2dNakF5TUMweE1pMHlNVlF3TVRveE1qb3dNUzQwTWpGYUNtbGtPaUE1TldVeE5tUm1NQzAyTlRVNUxUUmtNVEV0T1RZMlppMDNZbVZpTmpWaU4yUTVOV1VLYjNkdVpYSTZJR1YyWlhKcGN3cHdjbTl3WlhKMGFXVnpPaUI3ZlFwemFXZHVZWFIxY21VNklHNTFiR3dLZEhKcFlXdzZJSFJ5ZFdVS2RIbHdaVG9nVkZKSlFVd0tkbUZzYVdSR2NtOXRPaUF5TURJd0xURXhMVEl4VkRBeE9qRXlPakF4TGpReU1Wb0sKICAgIHNpZ25hdHVyZTogZ1F6eHNFNHA0M0hBdld1YXBua0tHR1hFRU1hNExNQVNkdzYzUysvVVJ1bHFkaTQvMmc0QjlBUEhudU5LNTdkdGF0czZlTUUyVDRjT1gwR2FsNFZrZXBLQU5md3VwQ2Jha3FCR3oyb3ZNV1Q1TlY4K0JxQ3hwV05HeFBrZ3dCT2JwUzBWcHpxVHBzTFlFaXBQY2dXWGx2aDl0V3N3V2J5czFYTm9pQzViRFdGUU1WSFl0V1ZwalZJcjBweHFWS0FDNExDbGVOOFR3WEtpeGUzMmJBekhnQVd2MHdYT2JZODNYUzM5ZFlLNkZoVm5NcW9DUjNHK1B0VWhySXJqMGdSMjJhQVp6QkNHcmRzazNIVWZuTW5VYjE4eE9rVDFWMkN5V0FiQk5RQTZEbmxSN2tpaEplM25IamZrdndYWmdZeWlyNjJndGhVMnR3RmVwNWh0aWtMODBnPT0KdmVyc2lvbjogMQo=
+    artifactory_license2: x
+    artifactory_license3: x
+    artifactory_license4: x
+    artifactory_license5: x
+    local_artifactory_tar: "/opt/project/repositories-ansible-azure/jfrog-artifactory-pro-7.10.2-linux.tar.gz"
+    master_key: "c97b862469de0d94fbb7d48130637a5a"
+    join_key: "9bcca98f375c0728d907cc6ee39d4f02"
+    db_download_url: "https://jdbc.postgresql.org/download/postgresql-42.2.12.jar"
+    db_type: "postgresql"
+    db_driver: "org.postgresql.Driver"
+    db_url: "jdbc:postgresql://192.168.30.21:5432/artifactory"
+    db_user: "artifactory"
+    db_password: "Art1fAct0ry"
+    server_name: "192.168.30.22"
+  roles:
+    - {role: 'artifactory', tags: 'artifactory-role'}
+
+- hosts: maquina3
+  gather_facts: yes  
+  become: true
+  become_method: "sudo"
+  vars:
+    local_xray_tar: "/opt/project/repositories-ansible-azure/jfrog-xray-3.10.3-linux.tar.gz"
+    jfrog_url: "192.168.30.22:8081"
+    master_key: "c97b862469de0d94fbb7d48130637a5a"
+    join_key: "9bcca98f375c0728d907cc6ee39d4f02"
+    db_type: "postgresql"
+    db_driver: "org.postgresql.Driver"
+    db_url: "postgres://192.168.30.21:5432/xraydb?sslmode=disable"
+    db_user: "xray"
+    db_password: "xray"
+  roles:
+    - {role: 'xray', tags: 'xray-role'}

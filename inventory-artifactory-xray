@@ -1,0 +1,52 @@
+---
+all:
+   vars:
+       ansible_user: "vagrant"
+   children:
+       database:
+           
+           hosts:
+               127.0.0.1:
+                   ansible_port:2222
+                   ansible_private_key_file: "/opt/project/repositories-ansible-azure/.vagrant/machines/maquina1/virtualbox/private_key"
+                   ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+                   dbs:
+                       - { db_name: "artifactory", db_owner: "artifactory" }
+                       - { db_name: "xraydb", db_owner: "xray" }
+                   db_users:
+                       - { db_user: "artifactory", db_password: "artifactory" }
+                       - { db_user: "xray", db_password: "xray" }
+       artifactory:
+           ansible_port:2200
+           ansible_private_key_file: "/opt/project/repositories-ansible-azure/.vagrant/machines/maquina2/virtualbox/private_key"
+           ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+           hosts:
+               127.0.0.1:
+                   artifactory_license1: x
+                   artifactory_license2: x
+                   artifactory_license3: x
+                   artifactory_license4: x
+                   artifactory_license5: x
+                   master_key: "c97b862469de0d94fbb7d48130637a5a"
+                   join_key: "9bcca98f375c0728d907cc6ee39d4f02"
+                   db_download_url: "https://jdbc.postgresql.org/download/postgresql-42.2.12.jar"
+                   db_type: "postgresql"
+                   db_driver: "org.postgresql.Driver"
+                   db_url: "jdbc:postgresql://10.0.0.59:5432/artifactory"
+                   db_user: "artifactory"
+                   db_password: "Art1fAct0ry"
+                   server_name: "ec2-54-237-207-135.compute-1.amazonaws.com"
+       xray:
+           ansible_port:2201
+           ansible_private_key_file: "/opt/project/repositories-ansible-azure/.vagrant/machines/maquina3/virtualbox/private_key"
+           ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+           hosts:
+               127.0.0.1:
+                   jfrog_url: "http://ec2-54-236-201-125.compute-1.amazonaws.com"
+                   master_key: "c97b862469de0d94fbb7d48130637a5a"
+                   join_key: "9bcca98f375c0728d907cc6ee39d4f02"
+                   db_type: "postgresql"
+                   db_driver: "org.postgresql.Driver"
+                   db_url: "postgres://10.0.0.59:5432/xraydb?sslmode=disable"
+                   db_user: "xray"
+                   db_password: "xray"

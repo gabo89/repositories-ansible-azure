@@ -1,0 +1,25 @@
+shared:
+
+  ## Node Settings
+  node:
+    ## A unique id to identify this node.
+    ## Default: auto generated at startup.
+    id: {{ ansible_machine_id }}
+
+    ## Sets this node as primary in HA installation
+    primary: {{ artifactory_is_primary }}
+
+    ## Sets this node as part of HA installation
+    haEnabled: {{ artifactory_ha_enabled }}
+
+  ## Database Configuration
+  database:
+    ## One of: mysql, oracle, mssql, postgresql, mariadb
+    ## Default: Embedded derby
+
+    ## Example for mysql/postgresql
+    type: "{{ db_type }}"
+    driver: "{{ db_driver }}"
+    url: "{{ db_url }}"
+    username: "{{ db_user }}"
+    password: "{{ db_password }}"
