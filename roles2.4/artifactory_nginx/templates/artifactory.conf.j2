@@ -4,10 +4,10 @@
 
   ## add HA entries when ha is configure
   upstream artifactory {
-  server 127.0.0.1:8082;
+  server {{ server_name }}:8082;
 }
   upstream artifactory-direct {
-  server 127.0.0.1:8081;
+  server {{ server_name }}:8081;
 }
   ## server configuration
   server {
