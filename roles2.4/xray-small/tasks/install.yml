@@ -1,0 +1,114 @@
+---
+- debug:
+    msg: "Performing installation of Xray..."
+
+- name: create group for xray
+  group:
+    name: "{{ xray_group }}"
+    state: present
+  become: yes
+
+- name: create user for xray
+  user:
+    name: "{{ xray_user }}"
+    group: "{{ xray_group }}"
+    system: yes
+  become: yes
+
+- name: Set timezone to America/Lima
+  community.general.timezone:
+    name: America/Lima
+
+- name: Install epel-release
+  yum:
+    name: "epel-release"
+    state: present
+  become: yes
+
+- name: Install snapd
+  yum:
+    name: "snapd"
+    state: present
+  become: yes
+
+- name: Install net-tools
+  yum:
+    name: "net-tools"
+    state: present
+  become: yes
+
+#- name: enable snapd socket
+#  shell: "systemctl enable --now snapd.socket"
+#  become: yes
+
+#- name: Pause for 5 minutes to build app cache
+#  pause:
+#    minutes: 1
+
+#- name: snap install yq
+#  shell: "snap install yq"
+#  become: yes
+
+- name: ensure jfrog_home_directory exists
+  file:
+    path: "{{ jfrog_home_directory }}"
+    state: directory
+  become: yes
+
+- name: 'Add {{ extra_path }} if PATH does not exist'
+  vars:
+    extra_path: "/var/lib/snapd/snap/yq/current/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+  lineinfile:
+    path: /etc/environment
+    line: 'PATH="{{ extra_path }}"'
+    insertafter: EOF
+  when: lookup('file', '/etc/environment') is not search('^\s*PATH\s*=')
+
+- name: 'Add {{ extra_path }} to PATH'
+  vars:
+    extra_path: /var/lib/snapd/snap/yq/current/bin
+  lineinfile:
+    path: /etc/environment
+    regexp: 'PATH=(["])((?!.*?{{ extra_path }}).*?)(["])$'
+    line: 'PATH=\1\2:{{ extra_path }}\3'
+    backrefs: yes
+  when: lookup('file', '/etc/environment') is search('^\s*PATH\s*=')
+
+
+- name: Local Copy xray {{ local_xray_tar }}
+  unarchive:
+    src: "{{ local_xray_tar }}"
+    dest: "{{ jfrog_home_directory }}"
+    owner: "{{ xray_user }}"
+    group: "{{ xray_group }}"
+    creates: "{{ xray_untar_home }}"
+  become: yes
+  when: local_xray_tar is defined
+  register: downloadxray
+  until: downloadxray is succeeded
+  retries: 3
+
+- name: MV untar directory to xray home
+  command: "mv {{ xray_untar_home }} {{ xray_home }}"
+  become: yes
+  ignore_errors: false
+
+- debug:
+    msg: "Running dependency installation for {{ ansible_os_family }}"
+
+- name: perform dependency installation
+  include_tasks: "{{ ansible_os_family }}.yml"
+
+
+#- name: create xray service
+#  shell: "{{ xray_home }}/installXray-centos.sh --use-defaults"
+#  become: yes
+
+#on reboot manually start 
+#systemctl enable rabbitmq-server.service
+#systemctl enable mongod.service
+
+#systemctl start rabbitmq-server.service
+#systemctl start mongod.service
+
+

@@ -3,7 +3,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-N = 3
+N = 2
 (1..N).each do |machine_id|
   config.vm.define "maquina#{machine_id}" do |machine|
     	machine.vm.box = "centos/7"
@@ -19,8 +19,8 @@ N = 3
 	#puts("enter once")	
     	machine.vm.provider "virtualbox" do |vb|
         #total cpu in my pc = 8 
-        vb.cpus = 1
-        vb.memory = 6144
+        vb.cpus = 2
+        vb.memory = 8192
         vb.gui = false
         vb.name = "red-node-#{machine_id}"
     	

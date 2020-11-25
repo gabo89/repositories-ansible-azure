@@ -9,6 +9,9 @@
   become: yes
   when: postgres_server_bind_mount_var_lib_pgsql
 
+- name: Set timezone to America/Lima
+  community.general.timezone:
+    name: America/Lima
 
 - name: perform bind mount if necessary
   mount:

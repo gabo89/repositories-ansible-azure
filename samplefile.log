@@ -1,0 +1,14 @@
+2020-11-23T22:27:36-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.016398
+2020-11-23T22:27:41-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.016026
+2020-11-23T22:27:46-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.019692
+2020-11-23T22:27:51-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.014469
+2020-11-23T22:27:56-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.030935
+2020-11-23T22:28:01-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.027706
+2020-11-23T22:28:06-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.014058
+2020-11-23T22:28:11-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.014890
+2020-11-23T22:28:16-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.016717
+2020-11-23T22:28:21-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.017546
+2020-11-23T22:28:26-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.041318
+2020-11-23T22:28:31-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.015374
+2020-11-23T22:28:36-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.014916
+2020-11-23T22:28:41-05:00|192.168.30.21|anonymous|GET|/api/v1/system/version|200|0|0.038066

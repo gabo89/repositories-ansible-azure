@@ -1,11 +1,16 @@
 ---
 #https://confluence.atlassian.com/bitbucketserver/supported-platforms-776640981.html
+
 #must be postgress-9.5 to 12
 
 - name: Install the postgress rpm from a remote repo
   yum:
     name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
     state: present
+
+- name: Set timezone to America/Lima
+  community.general.timezone:
+    name: America/Lima
 
 - name: install postgress-12 package
   yum:

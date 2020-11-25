@@ -1,0 +1,107 @@
+---
+- debug:
+    msg: "Performing installation of Artifactory..."
+
+- name: install nginx
+  include_role:
+    name: artifactory_nginx
+
+- name: Set timezone to America/Lima
+  community.general.timezone:
+    name: America/Lima
+
+- name: create group for artifactory
+  group:
+    name: "{{ artifactory_group }}"
+    state: present
+  become: yes
+
+- name: ensure java is installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - java-1.8.0-openjdk
+      - java-1.8.0-openjdk-devel
+
+- name: Install net-tools
+  yum:
+    name: "net-tools"
+    state: present
+  become: yes
+
+- name: Install unzip
+  yum:
+    name: "unzip"
+    state: present
+  become: yes
+
+- name: create user for artifactory
+  user:
+    name: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    system: yes
+  become: yes
+
+- name: ensure jfrog_home_directory exists
+  file:
+    path: "{{ jfrog_home_directory }}"
+    state: directory
+  become: yes
+
+
+- name: Local Copy artifactory {{ local_artifactory_tar }}
+  unarchive:
+    src: "{{ local_artifactory_tar }}"
+    dest: "{{ jfrog_home_directory }}"
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+    creates: "{{ artifactory_untar_home }}"
+  become: yes
+  when: local_artifactory_tar is defined
+  register: downloadartifactory
+  until: downloadartifactory is succeeded
+  retries: 3
+
+
+- name: MV {{ artifactory_untar_home }} {{artifactory_home}}
+  command: "mv {{ artifactory_untar_home }} {{ artifactory_home }}"
+  become: yes
+  ignore_errors: false
+
+- name: create artifactory service
+  shell: "{{ artifactory_home }}/bin/installService.sh"
+  become: yes
+
+- name: Ensure permissions are correct
+  file:
+    path: "{{ jfrog_home_directory }}"
+    group: "{{ artifactory_group }}"
+    owner: "{{ artifactory_user }}"
+    recurse: yes
+  become: yes
+
+
+- name: ensure {{ artifactory_home }}/etc/security/ exists
+  file:
+    path: "{{ artifactory_home }}/etc/security/"
+    state: directory
+    owner: "{{ artifactory_user }}"
+    group: "{{ artifactory_group }}"
+  become: yes
+
+- name: configure master key 
+  template:
+    src: master.key.j2
+    dest: "{{ artifactory_home }}/etc/security/master.key"
+    group: "{{ artifactory_group }}"
+    owner: "{{ artifactory_user }}"
+  become: yes
+
+- name: start and enable the primary node
+  service:
+    name: artifactory
+    state: started
+  become: yes
+

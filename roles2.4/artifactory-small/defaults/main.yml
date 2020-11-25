@@ -1,0 +1,35 @@
+---
+# defaults file for artifactory
+# indicates were this collection was downlaoded from (galaxy, automation_hub, standalone)
+ansible_marketplace: standalone
+
+# The version of Artifactory to install
+artifactory_version: 6.23.1
+
+# The location where Artifactory should install.
+jfrog_home_directory: /opt/jfrog
+# Pick the Artifactory flavour to install, can be also cpp-ce, jcr, pro.
+artifactory_flavour: pro
+
+extra_java_opts: -server -Xms2g -Xmx14g -Xss256k -XX:+UseG1GC
+artifactory_home: "{{ jfrog_home_directory }}/artifactory"
+artifactory_untar_home: "{{ jfrog_home_directory }}/artifactory-{{ artifactory_flavour }}-{{ artifactory_version }}"
+
+artifactory_user: artifactory
+artifactory_group: artifactory
+
+# Set the parameters required for the service.
+service_list:
+  - name: artifactory
+    description: Start script for Artifactory
+    start_command: "{{ artifactory_home }}/bin/artifactory.sh start"
+    stop_command: "{{ artifactory_home }}/bin/artifactory.sh stop"
+    type: forking
+    status_pattern: artifactory
+    user_name: "{{ artifactory_user }}"
+    group_name: "{{ artifactory_group }}"
+
+
+#default username and password
+artifactory_app_username: admin
+artifactory_app_user_pass: password

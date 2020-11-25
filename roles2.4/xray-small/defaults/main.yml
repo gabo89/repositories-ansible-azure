@@ -1,0 +1,25 @@
+---
+# defaults file for xray
+# indicates were this collection was downlaoded from (galaxy, automation_hub, standalone)
+ansible_marketplace: standalone
+
+# The version of xray to install
+xray_version: 2.9.0
+
+# The location where xray should install.
+jfrog_home_directory: /opt/jfrog
+
+# The remote xray download file
+xray_tar: "https://bintray.com/jfrog/xray/download_file?agree=true&file_path=xray-centos-{{xray_version}}.tar.gz"
+
+#The xray install directory
+xray_untar_home: "{{ jfrog_home_directory }}/xray-centos-{{ xray_version }}"
+xray_home: "{{ jfrog_home_directory }}/xray"
+
+#xray users and groups
+xray_user: xray
+xray_group: xray
+
+
+
+
