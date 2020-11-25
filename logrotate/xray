@@ -1,0 +1,9 @@
+/var/opt/jfrog/xray/data/logs/request.log{
+copytruncate
+daily
+compress
+rotate 7
+missingok
+size 20k
+}
+
